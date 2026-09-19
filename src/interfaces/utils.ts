@@ -1,9 +1,9 @@
-import { OPERATOR } from "../constants/operators";
-import { OUTPUT_FORMAT } from "../constants/output-format";
-import { SEPARATOR } from "../constants/separator";
-import { TOKEN_TYPE } from "../constants/token-type";
-import { IToken } from "./token";
-import { ITokenGlobal, TokenGlobal } from "./token-global";
+import type { OPERATOR } from "../constants/operators.js";
+import type { OUTPUT_FORMAT } from "../constants/output-format.js";
+import type { SEPARATOR } from "../constants/separator.js";
+import type { TOKEN_TYPE } from "../constants/token-type.js";
+import type { IToken } from "./token.js";
+import type { ITokenGlobal, TokenGlobal } from "./token-global.js";
 
 export type Hidden<T> = T & { hidden?: boolean };
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
