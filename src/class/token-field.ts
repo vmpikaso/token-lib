@@ -1,7 +1,7 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenField } from "../interfaces/token.js";
-import type { TokenFieldConstructor } from "../interfaces/token-contructor.js";
+import type { TokenFieldConstructor } from "../interfaces/token-constructor.js";
 import { ERROR_MSG, type TokenType } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
@@ -35,6 +35,6 @@ export class TokenField extends Token<TokenType["FIELD"]> implements ITokenField
       const text = this.options.length > 0 ? `|${this.options?.join("|")}` : "";
       return this.getSurround(`${this.getPrefix()}${text}`);
     }
-    return ERROR_MSG(TOKEN_TITLE.FIELD);
+    return ERROR_MSG(TOKEN_TITLE.FIELD, this.hidden);
   }
 }

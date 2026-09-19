@@ -2,7 +2,7 @@ import { SEPARATOR } from "../constants/separator.js";
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenHeader } from "../interfaces/token.js";
-import type { TokenHeaderConstructor } from "../interfaces/token-contructor.js";
+import type { TokenHeaderConstructor } from "../interfaces/token-constructor.js";
 import { ERROR_MSG, type Separator, type TokenType } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
@@ -18,7 +18,7 @@ export class TokenHeader extends Token<TokenType["HEADER"]> implements ITokenHea
   }
 
   protected _render(): string {
-    return this.isValid() ? `${this.content.join(this.separator)}\n` : ERROR_MSG(this.getTitle());
+    return this.isValid() ? `${this.content.join(this.separator)}\n` : ERROR_MSG(TOKEN_TITLE.HEADER, this.hidden);
   }
 
   protected _renderTitle(): string {

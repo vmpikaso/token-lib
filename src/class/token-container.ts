@@ -1,7 +1,7 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenContainer, ITokenContainerType } from "../interfaces/token.js";
-import type { TokenContainerConstructor } from "../interfaces/token-contructor.js";
+import type { TokenContainerConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
 import { ArrayToString, ERROR_MSG } from "../interfaces/utils.js";
 import { Token } from "./token.js";
@@ -14,10 +14,11 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     this.content = content;
   }
 
-  isValid() {
+  public isValid(): boolean {
     return this.content.length > 0;
   }
-  _render(): string {
+
+  protected _render(): string {
     if (this.isValid()) {
       switch (this.type) {
         case TOKEN_TYPE.PARENTHESE:
@@ -32,12 +33,12 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
           return ArrayToString(this.content);
       }
     }
-    return ERROR_MSG(this.getTitle());
+    return ERROR_MSG(this._renderTitle(), this.hidden);
   }
   //   setType(type: string) {
   //     this.type = type;
   //   }
-  _renderTitle(): string {
+  protected _renderTitle(): string {
     switch (this.type) {
       case TOKEN_TYPE.PARENTHESE:
         return TOKEN_TITLE.PARENTHESE;

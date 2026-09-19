@@ -3,6 +3,10 @@ import { TokenOperator } from "../../src/class/token-operator.js";
 import { OPERATOR } from "../../src/constants/operators.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { ERROR_MSG, type OperatorValue } from "../../src/interfaces/utils.js";
+
+/** `toString()` court-circuite sur un jeton caché : on observe `_render` directement. */
+const render = (token: TokenOperator) => (token as unknown as { _render(): string })._render();
 
 describe("TokenOperator — constructeur", () => {
   it("force le type opérateur", () => {
@@ -16,7 +20,7 @@ describe("TokenOperator — constructeur", () => {
     expect(token.type).toBe(TOKEN_TYPE.OPERATOR);
   });
 
-  it("retombe sur la valeur sentinelle « operator » sans valeur fournie", () => {
+  it("laisse la valeur vide quand aucun symbole n'est fourni", () => {
     // GIVEN
     const input = {};
 
@@ -24,7 +28,7 @@ describe("TokenOperator — constructeur", () => {
     const token = new TokenOperator(input);
 
     // THEN
-    expect(token.value).toBe(TOKEN_TYPE.OPERATOR);
+    expect(token.value).toBe("");
   });
 
   it("conserve l'opérateur fourni", () => {
@@ -40,7 +44,7 @@ describe("TokenOperator — constructeur", () => {
 });
 
 describe("TokenOperator — getTitle", () => {
-  it("renvoie le libellé nu quand la valeur est la sentinelle par défaut", () => {
+  it("renvoie le libellé nu tant qu'aucun symbole n'est choisi", () => {
     // GIVEN
     const token = new TokenOperator({});
 
@@ -359,6 +363,63 @@ describe("TokenOperator — toString", () => {
 
     // THEN
     expect(result).toBe("");
+  });
+});
+
+describe("TokenOperator — état non renseigné", () => {
+  it("est invalide tant qu'aucun symbole n'est choisi", () => {
+    // GIVEN
+    const token = new TokenOperator({});
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+
+  it("rend le message d'erreur plutôt qu'un symbole fantaisiste", () => {
+    // GIVEN
+    const token = new TokenOperator({});
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR));
+  });
+
+  it("signale l'état caché dans le message d'erreur", () => {
+    // GIVEN
+    const token = new TokenOperator({ hidden: true });
+
+    // WHEN
+    const result = render(token);
+
+    // THEN
+    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR, true));
+  });
+
+  it("rejette un symbole qui n'appartient pas à la liste des opérateurs", () => {
+    // GIVEN
+    const token = new TokenOperator({ value: "**" as OperatorValue });
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+
+  it("rend le message d'erreur pour un symbole inconnu", () => {
+    // GIVEN
+    const token = new TokenOperator({ value: "**" as OperatorValue });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR));
   });
 });
 

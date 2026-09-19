@@ -1,7 +1,7 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenColumn } from "../interfaces/token.js";
-import type { TokenColumnConstructor } from "../interfaces/token-contructor.js";
+import type { TokenColumnConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
 import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
 import { Token } from "./token.js";
@@ -19,7 +19,7 @@ export class TokenColumn extends Token<TokenType["COLUMN"]> implements ITokenCol
     if (this.isValid()) {
       return this.content.length > 0 ? ArrayToString(this.content) : "";
     }
-    return ERROR_MSG(TOKEN_TITLE.COLUMN);
+    return ERROR_MSG(TOKEN_TITLE.COLUMN, this.hidden);
   }
 
   protected _renderTitle(): string {

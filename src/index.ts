@@ -16,7 +16,7 @@ export { SEPARATOR } from "./constants/separator.js";
 export { TOKEN_TITLE } from "./constants/token-title.js";
 export { TOKEN_TYPE } from "./constants/token-type.js";
 export type * from "./interfaces/token.js";
-export type * from "./interfaces/token-contructor.js";
+export type * from "./interfaces/token-constructor.js";
 export type * from "./interfaces/token-global.js";
 export type * from "./interfaces/utils.js";
 export { ArrayToString, ERROR_MSG } from "./interfaces/utils.js";

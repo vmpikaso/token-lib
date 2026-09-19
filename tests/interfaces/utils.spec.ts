@@ -11,18 +11,29 @@ describe("ERROR_MSG", () => {
     const message = ERROR_MSG(type);
 
     // THEN
-    expect(message).toBe("(Élément de type: Champ mal rempli)");
+    expect(message).toBe("(Élément de type Champ mal rempli)");
   });
 
-  it("interpole le type tel quel, y compris un préfixe « (Caché) »", () => {
+  it("signale un élément caché sans altérer la phrase", () => {
     // GIVEN
-    const type = "(Caché) Entête";
+    const type = "Entête";
 
     // WHEN
-    const message = ERROR_MSG(type);
+    const message = ERROR_MSG(type, true);
 
     // THEN
-    expect(message).toBe("(Élément de type: (Caché) Entête mal rempli)");
+    expect(message).toBe("(Élément caché de type Entête mal rempli)");
+  });
+
+  it("ne signale rien quand l'élément est visible", () => {
+    // GIVEN
+    const type = "Entête";
+
+    // WHEN
+    const message = ERROR_MSG(type, false);
+
+    // THEN
+    expect(message).toBe("(Élément de type Entête mal rempli)");
   });
 
   it("accepte une chaîne vide", () => {
@@ -33,7 +44,7 @@ describe("ERROR_MSG", () => {
     const message = ERROR_MSG(type);
 
     // THEN
-    expect(message).toBe("(Élément de type:  mal rempli)");
+    expect(message).toBe("(Élément de type  mal rempli)");
   });
 });
 

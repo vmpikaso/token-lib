@@ -20,7 +20,7 @@ export type Operator = typeof OPERATOR;
 export type OperatorValue = Operator[keyof Operator]["value"];
 
 // Fonction qui retourne le message d'erreur à afficher
-export const ERROR_MSG = (type: string) => `(Élément de type: ${type} mal rempli)`;
+export const ERROR_MSG = (type: string, hidden = false) => `(Élément ${hidden ? "caché " : ""}de type ${type} mal rempli)`;
 
 // Fonction qui retourne le tableau sous forme de chaine de caractère.
 export function ArrayToString(array: TokenGlobal[]) {

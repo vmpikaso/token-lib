@@ -2,7 +2,7 @@ import { SEPARATOR } from "../constants/separator.js";
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenHeaderWithList } from "../interfaces/token.js";
-import type { TokenHeaderWithListConstructor } from "../interfaces/token-contructor.js";
+import type { TokenHeaderWithListConstructor } from "../interfaces/token-constructor.js";
 import { ERROR_MSG, type Separator, type TokenType } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 import type { TokenColumn } from "./token-column.js";
@@ -27,7 +27,7 @@ export class TokenHeaderWithList extends Token<TokenType["HEADER_WITH_LIST"]> im
 
   protected _render(): string {
     if (!this.list) {
-      return ERROR_MSG(this.getTitle());
+      return ERROR_MSG(TOKEN_TITLE.HEADER_WITH_LIST, this.hidden);
     }
 
     const headerInfo = this.columns.reduce(

@@ -1,11 +1,12 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { IToken } from "../interfaces/token.js";
-import type { BaseTokenConstructor } from "../interfaces/token-contructor.js";
+import type { BaseTokenConstructor } from "../interfaces/token-constructor.js";
 import type { TokenType, TokenTypeValue, TokenValue } from "../interfaces/utils.js";
 
 export class Token<T extends TokenTypeValue = TokenType["TEXT"], U extends TokenValue = string> implements IToken<T, U> {
-  private static _id = 0;
+  protected static currentId = 0;
+  private _id = 0;
   type: T;
   value: U;
   hidden: boolean;
@@ -14,7 +15,8 @@ export class Token<T extends TokenTypeValue = TokenType["TEXT"], U extends Token
     this.type = type;
     this.value = value;
     this.hidden = hidden;
-    Token._id++;
+    this._id = Token.currentId;
+    Token.currentId++;
   }
 
   protected _render(): string {
@@ -26,11 +28,11 @@ export class Token<T extends TokenTypeValue = TokenType["TEXT"], U extends Token
   }
 
   public getId() {
-    return Token._id;
+    return this._id;
   }
 
   public static reset() {
-    Token._id = 0;
+    Token.currentId = 0;
   }
 
   public getTitle(): string {
@@ -48,6 +50,6 @@ export class Token<T extends TokenTypeValue = TokenType["TEXT"], U extends Token
     if (Array.isArray(this.value)) {
       return this.value.length > 0;
     }
-    return this.value.value !== "";
+    return this.value !== null && this.value !== undefined && this.value.value !== "";
   }
 }

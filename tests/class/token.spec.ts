@@ -47,7 +47,7 @@ describe("Token — constructeur", () => {
 });
 
 describe("Token — getId / reset", () => {
-  it("part de 1 à la première construction après un reset", () => {
+  it("attribue l'identifiant 0 au premier jeton construit après un reset", () => {
     // GIVEN
     Token.reset();
 
@@ -55,55 +55,53 @@ describe("Token — getId / reset", () => {
     const token = new Token({});
 
     // THEN
-    expect(token.getId()).toBe(1);
+    expect(token.getId()).toBe(0);
   });
 
-  it("incrémente le compteur à chaque construction", () => {
+  it("attribue un identifiant distinct et croissant à chaque jeton", () => {
     // GIVEN
+    const tokens = [new Token({}), new Token({}), new Token({})];
+
+    // WHEN
+    const ids = tokens.map((token) => token.getId());
+
+    // THEN
+    expect(ids).toEqual([0, 1, 2]);
+  });
+
+  it("fige l'identifiant d'un jeton : les constructions suivantes ne le modifient pas", () => {
+    // GIVEN
+    const token = new Token({});
+
+    // WHEN
     new Token({});
     new Token({});
 
-    // WHEN
-    const token = new Token({});
-
     // THEN
-    expect(token.getId()).toBe(3);
+    expect(token.getId()).toBe(0);
   });
 
-  it("partage un compteur global avec les sous-classes", () => {
+  it("partage le compteur avec les sous-classes", () => {
     // GIVEN
-    const token = new Token({});
+    new Token({});
 
     // WHEN
-    new TokenField({ value: "x" });
+    const field = new TokenField({ value: "x" });
 
     // THEN
-    expect(token.getId()).toBe(2);
+    expect(field.getId()).toBe(1);
   });
 
-  it("renvoie le compteur global et non un identifiant d'instance", () => {
+  it("remet la numérotation à zéro", () => {
     // GIVEN
-    const first = new Token({});
-    const second = new Token({});
-
-    // WHEN
-    const firstId = first.getId();
-    const secondId = second.getId();
-
-    // THEN
-    expect(firstId).toBe(secondId);
-  });
-
-  it("remet le compteur à zéro", () => {
-    // GIVEN
+    new Token({});
     new Token({});
 
     // WHEN
     Token.reset();
-    const token = new Token({});
 
     // THEN
-    expect(token.getId()).toBe(1);
+    expect(new Token({}).getId()).toBe(0);
   });
 });
 
@@ -236,6 +234,29 @@ describe("Token — isValid", () => {
   it("rejette un jeton imbriqué dont la valeur est vide", () => {
     // GIVEN
     const token = new Token<TokenType["TEXT"], ITokenGlobal>({ value: text("") });
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+
+  it("rejette une valeur nulle plutôt que de lever une exception", () => {
+    // GIVEN
+    const token = new Token({ value: null as unknown as string });
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+
+  it("rejette une valeur effacée après construction plutôt que de lever une exception", () => {
+    // GIVEN
+    const token = new Token({ value: "x" });
+    token.value = undefined as unknown as typeof token.value;
 
     // WHEN
     const result = token.isValid();

@@ -1,7 +1,7 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenCondition } from "../interfaces/token.js";
-import type { TokenConditionConstructor } from "../interfaces/token-contructor.js";
+import type { TokenConditionConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
 import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
 import { Token } from "./token.js";
@@ -26,7 +26,7 @@ export class TokenCondition extends Token<TokenType["CONDITION"]> implements ITo
       const text = this.else.length === 0 ? "" : `##else ${ArrayToString(this.else)}`;
       return `${prefix}${text}##endif `;
     }
-    return ERROR_MSG(TOKEN_TITLE.CONDITION);
+    return ERROR_MSG(TOKEN_TITLE.CONDITION, this.hidden);
   }
 
   protected _renderTitle(): string {

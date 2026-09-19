@@ -20,7 +20,7 @@ const CONSTANTS = ["OPERATOR", "OUTPUT_FORMAT", "SEPARATOR", "TOKEN_TITLE", "TOK
 const HELPERS = ["ArrayToString", "ERROR_MSG"] as const;
 
 /**
- * Capturé au chargement du module, avant l'exécution du moindre test : vaut 1
+ * Capturé au chargement du module, avant l'exécution du moindre test : vaut 0
  * uniquement si l'import du barrel n'a construit aucun jeton lui-même.
  */
 const idOfFirstTokenAfterImport = new api.Token({}).getId();
@@ -90,7 +90,7 @@ describe("surface publique du barrel", () => {
     const id = idOfFirstTokenAfterImport;
 
     // WHEN
-    const isFirst = id === 1;
+    const isFirst = id === 0;
 
     // THEN
     expect(isFirst).toBe(true);
