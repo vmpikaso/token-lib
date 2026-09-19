@@ -1,0 +1,32 @@
+import { TOKEN_TITLE } from "../constants/token-title.js";
+import { TOKEN_TYPE } from "../constants/token-type.js";
+import type { ITokenColumn } from "../interfaces/token.js";
+import type { TokenColumnConstructor } from "../interfaces/token-contructor.js";
+import type { TokenGlobal } from "../interfaces/token-global.js";
+import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { Token } from "./token.js";
+
+export class TokenColumn extends Token<TokenType["COLUMN"]> implements ITokenColumn {
+  content: TokenGlobal[];
+
+  constructor(token: TokenColumnConstructor) {
+    const { content = [], value = "" } = token;
+    super({ type: TOKEN_TYPE.COLUMN, value: value, hidden: token.hidden });
+    this.content = content;
+  }
+
+  protected _render(): string {
+    if (this.isValid()) {
+      return this.content.length > 0 ? ArrayToString(this.content) : "";
+    }
+    return ERROR_MSG(TOKEN_TITLE.COLUMN);
+  }
+
+  protected _renderTitle(): string {
+    return this.isValid() ? `${TOKEN_TITLE.COLUMN}: ${this.value}` : TOKEN_TITLE.COLUMN;
+  }
+
+  public isValid(): boolean {
+    return this.value.length > 0;
+  }
+}

@@ -1,0 +1,15 @@
+export const OPERATOR = {
+  MORE: { name: "Plus", value: "+" },
+  LESS: { name: "Moins", value: "-" },
+  MULTIPLY: { name: "Multiplié", value: "*" },
+  DIVIDE: { name: "Divisé", value: "/" },
+  MODULO: { name: "Modulo", value: "%" },
+  AND: { name: "ET", value: "&&" },
+  OR: { name: "OU", value: "||" },
+  EQUAL: { name: "Equal", value: "==" },
+  DIFFERENT: { name: "Différent", value: "!=" },
+  GREAT_THAN: { name: "Supérieur à", value: ">" },
+  GREAT_OR_EQUAL: { name: "Supérieur ou équal à", value: ">=" },
+  LESS_THAN: { name: "Inférieur à", value: "<" },
+  LESS_OR_EQUAL: { name: "Inférieur ou équal à", value: "<=" },
+} as const;
