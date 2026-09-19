@@ -1,21 +1,21 @@
 import { SEPARATORS, type Separator } from "../constants/separator.js";
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenHeaderWithList } from "../interfaces/token.js";
-import type { TokenHeaderWithListConstructor } from "../interfaces/token-constructor.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { HeaderWithListTokenConstructor } from "../interfaces/token.constructor.js";
+import type { IHeaderWithListToken } from "../interfaces/token.js";
 import type { TokenTypes } from "../interfaces/utils.js";
 import { arrayToString } from "../utils/array-to-string.js";
 import { getErrorMessage } from "../utils/error-message.js";
+import type { ColumnToken } from "./column.token.js";
+import type { ListToken } from "./list.token.js";
 import { Token } from "./token.js";
-import type { TokenColumn } from "./token-column.js";
-import type { TokenList } from "./token-list.js";
 
-export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> implements ITokenHeaderWithList {
-  list?: TokenList;
+export class HeaderWithListToken extends Token<TokenTypes["HEADER_WITH_LIST"]> implements IHeaderWithListToken {
+  list?: ListToken;
   separator: Separator;
-  columns: TokenColumn[];
+  columns: ColumnToken[];
 
-  constructor(token: TokenHeaderWithListConstructor) {
+  constructor(token: HeaderWithListTokenConstructor) {
     const { columns = [], separator = SEPARATORS.SEMICOLON.value } = token;
     super({
       type: TOKEN_TYPE.HEADER_WITH_LIST,
@@ -58,7 +58,7 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
     return TOKEN_TITLE.HEADER_WITH_LIST;
   }
 
-  override isValid(): this is this & { list: TokenList } {
+  override isValid(): this is this & { list: ListToken } {
     return this.list?.isValid() ?? false;
   }
 }

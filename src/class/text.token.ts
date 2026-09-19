@@ -1,10 +1,10 @@
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenText, ITokenTextType } from "../interfaces/token.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { ITextToken, TextTokenType } from "../interfaces/token.js";
 import { Token } from "./token.js";
 
-export class TokenText extends Token<ITokenTextType> implements ITokenText {
-  constructor({ type = TOKEN_TYPE.TEXT, value = "", hidden = false }: Partial<ITokenText>) {
+export class TextToken extends Token<TextTokenType> implements ITextToken {
+  constructor({ type = TOKEN_TYPE.TEXT, value = "", hidden = false }: Partial<ITextToken>) {
     super({ type: type, value: value, hidden: hidden });
   }
 

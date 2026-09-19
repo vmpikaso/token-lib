@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { TokenText } from "../../src/class/token-text.js";
+import { TextToken } from "../../src/class/text.token.js";
 import { SEPARATORS } from "../../src/constants/separator.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 
-describe("TokenText — constructeur", () => {
+describe("TextToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenText(input);
+    const token = new TextToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.TEXT, value: "", hidden: false }));
@@ -21,17 +21,17 @@ describe("TokenText — constructeur", () => {
     const input = { type: TOKEN_TYPE.COMMA, value: ",", hidden: true };
 
     // WHEN
-    const token = new TokenText(input);
+    const token = new TextToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.COMMA, value: ",", hidden: true }));
   });
 });
 
-describe("TokenText — getTitle", () => {
+describe("TextToken — getTitle", () => {
   it("libelle une virgule", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.COMMA, value: "," });
+    const token = new TextToken({ type: TOKEN_TYPE.COMMA, value: "," });
 
     // WHEN
     const title = token.getTitle();
@@ -42,7 +42,7 @@ describe("TokenText — getTitle", () => {
 
   it("libelle une espace", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.SPACE, value: " " });
+    const token = new TextToken({ type: TOKEN_TYPE.SPACE, value: " " });
 
     // WHEN
     const title = token.getTitle();
@@ -53,7 +53,7 @@ describe("TokenText — getTitle", () => {
 
   it("libelle un saut de ligne", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.JUMPLINE, value: "\n" });
+    const token = new TextToken({ type: TOKEN_TYPE.JUMPLINE, value: "\n" });
 
     // WHEN
     const title = token.getTitle();
@@ -64,7 +64,7 @@ describe("TokenText — getTitle", () => {
 
   it("libelle un texte simple", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.TEXT, value: "bonjour" });
+    const token = new TextToken({ type: TOKEN_TYPE.TEXT, value: "bonjour" });
 
     // WHEN
     const title = token.getTitle();
@@ -75,7 +75,7 @@ describe("TokenText — getTitle", () => {
 
   it("intègre la valeur dans le libellé d'un séparateur", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.SEPARATOR, value: SEPARATORS.SEMICOLON.value });
+    const token = new TextToken({ type: TOKEN_TYPE.SEPARATOR, value: SEPARATORS.SEMICOLON.value });
 
     // WHEN
     const title = token.getTitle();
@@ -86,7 +86,7 @@ describe("TokenText — getTitle", () => {
 
   it("intègre la valeur dans le libellé d'un nombre", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.NUMBER, value: "42" });
+    const token = new TextToken({ type: TOKEN_TYPE.NUMBER, value: "42" });
 
     // WHEN
     const title = token.getTitle();
@@ -97,7 +97,7 @@ describe("TokenText — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.SPACE, hidden: true });
+    const token = new TextToken({ type: TOKEN_TYPE.SPACE, hidden: true });
 
     // WHEN
     const title = token.getTitle();
@@ -107,10 +107,10 @@ describe("TokenText — getTitle", () => {
   });
 });
 
-describe("TokenText — toString", () => {
+describe("TextToken — toString", () => {
   it("rend la valeur brute", () => {
     // GIVEN
-    const token = new TokenText({ value: "bonjour" });
+    const token = new TextToken({ value: "bonjour" });
 
     // WHEN
     const result = token.toString();
@@ -121,7 +121,7 @@ describe("TokenText — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenText({ value: "bonjour", hidden: true });
+    const token = new TextToken({ value: "bonjour", hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -131,10 +131,10 @@ describe("TokenText — toString", () => {
   });
 });
 
-describe("TokenText — isValid", () => {
+describe("TextToken — isValid", () => {
   it("accepte une valeur non vide", () => {
     // GIVEN
-    const token = new TokenText({ value: "x" });
+    const token = new TextToken({ value: "x" });
 
     // WHEN
     const result = token.isValid();
@@ -145,7 +145,7 @@ describe("TokenText — isValid", () => {
 
   it("rejette une valeur vide", () => {
     // GIVEN
-    const token = new TokenText({});
+    const token = new TextToken({});
 
     // WHEN
     const result = token.isValid();

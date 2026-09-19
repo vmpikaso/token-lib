@@ -1,17 +1,17 @@
 import { SEPARATORS, type Separator } from "../constants/separator.js";
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenHeader } from "../interfaces/token.js";
-import type { TokenHeaderConstructor } from "../interfaces/token-constructor.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { HeaderTokenConstructor } from "../interfaces/token.constructor.js";
+import type { IHeaderToken } from "../interfaces/token.js";
 import type { TokenTypes } from "../interfaces/utils.js";
 import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
-export class TokenHeader extends Token<TokenTypes["HEADER"]> implements ITokenHeader {
+export class HeaderToken extends Token<TokenTypes["HEADER"]> implements IHeaderToken {
   content: string[];
   separator: Separator;
 
-  constructor(token: TokenHeaderConstructor) {
+  constructor(token: HeaderTokenConstructor) {
     const { content = [], separator = SEPARATORS.SEMICOLON.value } = token;
     super({ type: TOKEN_TYPE.HEADER, value: "", hidden: token.hidden });
     this.content = content;

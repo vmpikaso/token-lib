@@ -1,6 +1,6 @@
-import { TOKEN_TITLE } from "../constants/token-title.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import type { BaseTokenConstructor } from "../interfaces/token.constructor.js";
 import type { IToken } from "../interfaces/token.js";
-import type { BaseTokenConstructor } from "../interfaces/token-constructor.js";
 import type { TokenType, TokenTypes, TokenValue } from "../interfaces/utils.js";
 
 export class Token<T extends TokenType = TokenTypes["TEXT"], U extends TokenValue = string> implements IToken<T, U> {

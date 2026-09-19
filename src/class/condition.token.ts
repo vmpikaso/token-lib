@@ -1,21 +1,21 @@
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenCondition } from "../interfaces/token.js";
-import type { TokenConditionConstructor } from "../interfaces/token-constructor.js";
-import type { TokenGlobal } from "../interfaces/token-global.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { AnyToken } from "../interfaces/any.token.js";
+import type { ConditionTokenConstructor } from "../interfaces/token.constructor.js";
+import type { IConditionToken } from "../interfaces/token.js";
 import type { TokenTypes } from "../interfaces/utils.js";
 import { arrayToString } from "../utils/array-to-string.js";
 import { getErrorMessage } from "../utils/error-message.js";
+import { ExpressionToken } from "./expression.token.js";
 import { Token } from "./token.js";
-import { TokenExpression } from "./token-expression.js";
 
-export class TokenCondition extends Token<TokenTypes["CONDITION"]> implements ITokenCondition {
-  then: TokenGlobal[];
-  else: TokenGlobal[];
-  condition: TokenExpression;
+export class ConditionToken extends Token<TokenTypes["CONDITION"]> implements IConditionToken {
+  then: AnyToken[];
+  else: AnyToken[];
+  condition: ExpressionToken;
 
-  constructor(token: TokenConditionConstructor) {
-    const { condition = new TokenExpression({}), thenBlock = [], elseBlock = [] } = token;
+  constructor(token: ConditionTokenConstructor) {
+    const { condition = new ExpressionToken({}), thenBlock = [], elseBlock = [] } = token;
     super({ type: TOKEN_TYPE.CONDITION, value: "", hidden: token.hidden });
     this.then = thenBlock;
     this.else = elseBlock;

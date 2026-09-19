@@ -1,6 +1,6 @@
 import type { Operator } from "../constants/operators.js";
 import type { Separator } from "../constants/separator.js";
-import type { ITokenGlobal } from "./token-global.js";
+import type { IAnyToken } from "./any.token.js";
 import type { TokenType, TokenTypes, TokenValue } from "./utils.js";
 
 export interface IToken<T extends TokenType = TokenType, U extends TokenValue = string> {
@@ -17,51 +17,51 @@ export type ITokenData<T extends TokenType = TokenType, U extends TokenValue = s
   IToken<T, U>,
   "type" | "value" | "hidden"
 >;
-export type ITokenTextType = TokenTypes["TEXT" | "COMMA" | "SPACE" | "JUMPLINE" | "SEPARATOR" | "NUMBER"];
-export type ITokenContainerType = TokenTypes["HOOK" | "BRACKET" | "PARENTHESE" | "QUOTE"];
+export type TextTokenType = TokenTypes["TEXT" | "COMMA" | "SPACE" | "JUMPLINE" | "SEPARATOR" | "NUMBER"];
+export type ContainerTokenType = TokenTypes["HOOK" | "BRACKET" | "PARENTHESE" | "QUOTE"];
 
-export interface ITokenText extends IToken<ITokenTextType> {}
+export interface ITextToken extends IToken<TextTokenType> {}
 
-export interface ITokenOperator extends IToken<TokenTypes["OPERATOR"], Operator> {}
+export interface IOperatorToken extends IToken<TokenTypes["OPERATOR"], Operator> {}
 
-export interface ITokenField extends IToken<TokenTypes["FIELD"]> {
+export interface IFieldToken extends IToken<TokenTypes["FIELD"]> {
   options: string[];
   addQuote?: boolean;
   parent?: string;
 }
 
-export interface ITokenList extends IToken<TokenTypes["LIST"]> {
-  children: ITokenGlobal[];
+export interface IListToken extends IToken<TokenTypes["LIST"]> {
+  children: IAnyToken[];
   parent: string[];
   alias: string;
   jumpLine: boolean;
 }
 
-export interface ITokenColumn extends IToken<TokenTypes["COLUMN"]> {
-  content: ITokenGlobal[];
+export interface IColumnToken extends IToken<TokenTypes["COLUMN"]> {
+  content: IAnyToken[];
 }
 
-export interface ITokenHeader extends IToken<TokenTypes["HEADER"]> {
+export interface IHeaderToken extends IToken<TokenTypes["HEADER"]> {
   content: string[];
   separator: Separator;
 }
 
-export interface ITokenHeaderWithList extends IToken<TokenTypes["HEADER_WITH_LIST"]> {
-  list?: ITokenList;
+export interface IHeaderWithListToken extends IToken<TokenTypes["HEADER_WITH_LIST"]> {
+  list?: IListToken;
   separator: Separator;
-  columns: ITokenColumn[];
+  columns: IColumnToken[];
 }
 
-export interface ITokenExpression extends IToken<TokenTypes["EXPRESSION"]> {
-  expression: ITokenGlobal[];
+export interface IExpressionToken extends IToken<TokenTypes["EXPRESSION"]> {
+  expression: IAnyToken[];
 }
 
-export interface ITokenCondition extends IToken<TokenTypes["CONDITION"]> {
-  then: ITokenGlobal[];
-  else: ITokenGlobal[];
-  condition: ITokenExpression;
+export interface IConditionToken extends IToken<TokenTypes["CONDITION"]> {
+  then: IAnyToken[];
+  else: IAnyToken[];
+  condition: IExpressionToken;
 }
 
-export interface ITokenContainer extends IToken<ITokenContainerType> {
-  content: ITokenGlobal[];
+export interface IContainerToken extends IToken<ContainerTokenType> {
+  content: IAnyToken[];
 }

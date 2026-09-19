@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { TokenList } from "../../src/class/token-list.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { ListToken } from "../../src/class/list.token.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
-describe("TokenList — constructeur", () => {
+describe("ListToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenList(input);
+    const token = new ListToken(input);
 
     // THEN
     expect(token).toEqual(
@@ -32,17 +32,17 @@ describe("TokenList — constructeur", () => {
     const input = { value: "liste", alias: "a", parent: ["p"], jumpLine: false, children: [text("c")] };
 
     // WHEN
-    const token = new TokenList(input);
+    const token = new ListToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining(input));
   });
 });
 
-describe("TokenList — isValid", () => {
+describe("ListToken — isValid", () => {
   it("accepte un alias et une valeur non vides", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a" });
+    const token = new ListToken({ value: "liste", alias: "a" });
 
     // WHEN
     const result = token.isValid();
@@ -53,7 +53,7 @@ describe("TokenList — isValid", () => {
 
   it("rejette une liste sans alias", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste" });
+    const token = new ListToken({ value: "liste" });
 
     // WHEN
     const result = token.isValid();
@@ -64,7 +64,7 @@ describe("TokenList — isValid", () => {
 
   it("rejette une liste sans valeur", () => {
     // GIVEN
-    const token = new TokenList({ alias: "a" });
+    const token = new ListToken({ alias: "a" });
 
     // WHEN
     const result = token.isValid();
@@ -75,7 +75,7 @@ describe("TokenList — isValid", () => {
 
   it("rejette une liste sans alias ni valeur", () => {
     // GIVEN
-    const token = new TokenList({});
+    const token = new ListToken({});
 
     // WHEN
     const result = token.isValid();
@@ -85,10 +85,10 @@ describe("TokenList — isValid", () => {
   });
 });
 
-describe("TokenList — getPrefix", () => {
+describe("ListToken — getPrefix", () => {
   it("construit le préfixe avec une espace finale significative", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a" });
+    const token = new ListToken({ value: "liste", alias: "a" });
 
     // WHEN
     const prefix = token.getPrefix();
@@ -99,7 +99,7 @@ describe("TokenList — getPrefix", () => {
 
   it("préfixe la valeur par un parent unique", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", parent: ["p"] });
+    const token = new ListToken({ value: "liste", alias: "a", parent: ["p"] });
 
     // WHEN
     const prefix = token.getPrefix();
@@ -110,7 +110,7 @@ describe("TokenList — getPrefix", () => {
 
   it("joint plusieurs parents par des points", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", parent: ["p1", "p2"] });
+    const token = new ListToken({ value: "liste", alias: "a", parent: ["p1", "p2"] });
 
     // WHEN
     const prefix = token.getPrefix();
@@ -120,10 +120,10 @@ describe("TokenList — getPrefix", () => {
   });
 });
 
-describe("TokenList — getSurround", () => {
+describe("ListToken — getSurround", () => {
   it("encadre le contenu par les marqueurs de liste", () => {
     // GIVEN
-    const token = new TokenList({});
+    const token = new ListToken({});
 
     // WHEN
     const surrounded = token.getSurround("contenu");
@@ -134,7 +134,7 @@ describe("TokenList — getSurround", () => {
 
   it("encadre un contenu vide", () => {
     // GIVEN
-    const token = new TokenList({});
+    const token = new ListToken({});
 
     // WHEN
     const surrounded = token.getSurround("");
@@ -144,10 +144,10 @@ describe("TokenList — getSurround", () => {
   });
 });
 
-describe("TokenList — toString", () => {
+describe("ListToken — toString", () => {
   it("rend une liste vide avec un saut de ligne par défaut", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a" });
+    const token = new ListToken({ value: "liste", alias: "a" });
 
     // WHEN
     const result = token.toString();
@@ -158,7 +158,7 @@ describe("TokenList — toString", () => {
 
   it("omet le saut de ligne quand jumpLine est faux", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", jumpLine: false });
+    const token = new ListToken({ value: "liste", alias: "a", jumpLine: false });
 
     // WHEN
     const result = token.toString();
@@ -169,7 +169,7 @@ describe("TokenList — toString", () => {
 
   it("concatène les enfants sans séparateur", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", children: [text("x"), text("y")] });
+    const token = new ListToken({ value: "liste", alias: "a", children: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -180,7 +180,7 @@ describe("TokenList — toString", () => {
 
   it("combine enfants, parents et absence de saut de ligne", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", parent: ["p"], children: [text("x")], jumpLine: false });
+    const token = new ListToken({ value: "liste", alias: "a", parent: ["p"], children: [text("x")], jumpLine: false });
 
     // WHEN
     const result = token.toString();
@@ -191,7 +191,7 @@ describe("TokenList — toString", () => {
 
   it("ignore les enfants cachés", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", children: [text("x"), text("y", true)] });
+    const token = new ListToken({ value: "liste", alias: "a", children: [text("x"), text("y", true)] });
 
     // WHEN
     const result = token.toString();
@@ -202,7 +202,7 @@ describe("TokenList — toString", () => {
 
   it("rend le message d'erreur quand la liste est invalide", () => {
     // GIVEN
-    const token = new TokenList({ alias: "a" });
+    const token = new ListToken({ alias: "a" });
 
     // WHEN
     const result = token.toString();
@@ -213,7 +213,7 @@ describe("TokenList — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", hidden: true });
+    const token = new ListToken({ value: "liste", alias: "a", hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -223,10 +223,10 @@ describe("TokenList — toString", () => {
   });
 });
 
-describe("TokenList — getTitle", () => {
+describe("ListToken — getTitle", () => {
   it("intègre l'alias quand la liste est valide", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a" });
+    const token = new ListToken({ value: "liste", alias: "a" });
 
     // WHEN
     const title = token.getTitle();
@@ -237,7 +237,7 @@ describe("TokenList — getTitle", () => {
 
   it("retombe sur le libellé générique quand la liste est invalide", () => {
     // GIVEN
-    const token = new TokenList({ alias: "a" });
+    const token = new ListToken({ alias: "a" });
 
     // WHEN
     const title = token.getTitle();
@@ -248,7 +248,7 @@ describe("TokenList — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenList({ value: "liste", alias: "a", hidden: true });
+    const token = new ListToken({ value: "liste", alias: "a", hidden: true });
 
     // WHEN
     const title = token.getTitle();

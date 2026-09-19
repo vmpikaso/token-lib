@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { TokenColumn } from "../../src/class/token-column.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { ColumnToken } from "../../src/class/column.token.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
-describe("TokenColumn — constructeur", () => {
+describe("ColumnToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenColumn(input);
+    const token = new ColumnToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.COLUMN, value: "", content: [], hidden: false }));
@@ -22,17 +22,17 @@ describe("TokenColumn — constructeur", () => {
     const input = { value: "Entete", content: [text("x")], hidden: true };
 
     // WHEN
-    const token = new TokenColumn(input);
+    const token = new ColumnToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining(input));
   });
 });
 
-describe("TokenColumn — isValid", () => {
+describe("ColumnToken — isValid", () => {
   it("ne dépend que de la valeur, pas du contenu", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete" });
+    const token = new ColumnToken({ value: "Entete" });
 
     // WHEN
     const result = token.isValid();
@@ -43,7 +43,7 @@ describe("TokenColumn — isValid", () => {
 
   it("rejette une colonne sans valeur même avec du contenu", () => {
     // GIVEN
-    const token = new TokenColumn({ content: [text("x")] });
+    const token = new ColumnToken({ content: [text("x")] });
 
     // WHEN
     const result = token.isValid();
@@ -53,10 +53,10 @@ describe("TokenColumn — isValid", () => {
   });
 });
 
-describe("TokenColumn — toString", () => {
+describe("ColumnToken — toString", () => {
   it("renvoie une chaîne vide quand la colonne est valide mais sans contenu", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete" });
+    const token = new ColumnToken({ value: "Entete" });
 
     // WHEN
     const result = token.toString();
@@ -67,7 +67,7 @@ describe("TokenColumn — toString", () => {
 
   it("concatène le contenu sans séparateur", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete", content: [text("x"), text("y")] });
+    const token = new ColumnToken({ value: "Entete", content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -78,7 +78,7 @@ describe("TokenColumn — toString", () => {
 
   it("ignore le contenu caché", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete", content: [text("x"), text("y", true)] });
+    const token = new ColumnToken({ value: "Entete", content: [text("x"), text("y", true)] });
 
     // WHEN
     const result = token.toString();
@@ -89,7 +89,7 @@ describe("TokenColumn — toString", () => {
 
   it("rend le message d'erreur quand la colonne est invalide", () => {
     // GIVEN
-    const token = new TokenColumn({ content: [text("x")] });
+    const token = new ColumnToken({ content: [text("x")] });
 
     // WHEN
     const result = token.toString();
@@ -100,7 +100,7 @@ describe("TokenColumn — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete", content: [text("x")], hidden: true });
+    const token = new ColumnToken({ value: "Entete", content: [text("x")], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -110,10 +110,10 @@ describe("TokenColumn — toString", () => {
   });
 });
 
-describe("TokenColumn — getTitle", () => {
+describe("ColumnToken — getTitle", () => {
   it("intègre la valeur quand la colonne est valide", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete" });
+    const token = new ColumnToken({ value: "Entete" });
 
     // WHEN
     const title = token.getTitle();
@@ -124,7 +124,7 @@ describe("TokenColumn — getTitle", () => {
 
   it("retombe sur le libellé générique quand la colonne est invalide", () => {
     // GIVEN
-    const token = new TokenColumn({});
+    const token = new ColumnToken({});
 
     // WHEN
     const title = token.getTitle();
@@ -135,7 +135,7 @@ describe("TokenColumn — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenColumn({ value: "Entete", hidden: true });
+    const token = new ColumnToken({ value: "Entete", hidden: true });
 
     // WHEN
     const title = token.getTitle();

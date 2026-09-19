@@ -1,17 +1,17 @@
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenField } from "../interfaces/token.js";
-import type { TokenFieldConstructor } from "../interfaces/token-constructor.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { FieldTokenConstructor } from "../interfaces/token.constructor.js";
+import type { IFieldToken } from "../interfaces/token.js";
 import type { TokenTypes } from "../interfaces/utils.js";
 import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
-export class TokenField extends Token<TokenTypes["FIELD"]> implements ITokenField {
+export class FieldToken extends Token<TokenTypes["FIELD"]> implements IFieldToken {
   options: string[];
   addQuote: boolean;
   parent?: string;
 
-  constructor(token: TokenFieldConstructor) {
+  constructor(token: FieldTokenConstructor) {
     const { options = [], addQuote = true, value = "", parent } = token;
     super({ type: TOKEN_TYPE.FIELD, value, hidden: token.hidden });
     this.options = options;

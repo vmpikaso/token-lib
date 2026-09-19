@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { TokenGlobal } from "../../src/index.js";
+import type { AnyToken } from "../../src/index.js";
 import { arrayToString } from "../../src/utils/array-to-string.js";
 import { text } from "../helpers/fixtures.js";
 
 describe("arrayToString", () => {
   it("renvoie une chaîne vide pour un tableau vide", () => {
     // GIVEN
-    const tokens: TokenGlobal[] = [];
+    const tokens: AnyToken[] = [];
 
     // WHEN
     const result = arrayToString(tokens);

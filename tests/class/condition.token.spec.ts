@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { TokenCondition } from "../../src/class/token-condition.js";
-import { TokenExpression } from "../../src/class/token-expression.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { ConditionToken } from "../../src/class/condition.token.js";
+import { ExpressionToken } from "../../src/class/expression.token.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text, validCondition } from "../helpers/fixtures.js";
 
-describe("TokenCondition — constructeur", () => {
+describe("ConditionToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenCondition(input);
+    const token = new ConditionToken(input);
 
     // THEN
     expect(token).toEqual(
@@ -21,14 +21,14 @@ describe("TokenCondition — constructeur", () => {
         then: [],
         else: [],
         value: "",
-        condition: expect.any(TokenExpression),
+        condition: expect.any(ExpressionToken),
       }),
     );
   });
 
   it("construit une condition par défaut vide, donc invalide", () => {
     // GIVEN
-    const token = new TokenCondition({});
+    const token = new ConditionToken({});
 
     // WHEN
     const result = token.condition.isValid();
@@ -42,17 +42,17 @@ describe("TokenCondition — constructeur", () => {
     const input = { thenBlock: [text("y")], elseBlock: [text("z")] };
 
     // WHEN
-    const token = new TokenCondition(input);
+    const token = new ConditionToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ then: input.thenBlock, else: input.elseBlock }));
   });
 });
 
-describe("TokenCondition — isValid", () => {
+describe("ConditionToken — isValid", () => {
   it("délègue la validité à la condition", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition() });
+    const token = new ConditionToken({ condition: validCondition() });
 
     // WHEN
     const result = token.isValid();
@@ -63,7 +63,7 @@ describe("TokenCondition — isValid", () => {
 
   it("est invalide quand la condition est vide", () => {
     // GIVEN
-    const token = new TokenCondition({});
+    const token = new ConditionToken({});
 
     // WHEN
     const result = token.isValid();
@@ -74,7 +74,7 @@ describe("TokenCondition — isValid", () => {
 
   it("reste valide avec une condition cachée", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition(true) });
+    const token = new ConditionToken({ condition: validCondition(true) });
 
     // WHEN
     const result = token.isValid();
@@ -84,10 +84,10 @@ describe("TokenCondition — isValid", () => {
   });
 });
 
-describe("TokenCondition — toString", () => {
+describe("ConditionToken — toString", () => {
   it("rend un bloc if/then sans else", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition(), thenBlock: [text("y")] });
+    const token = new ConditionToken({ condition: validCondition(), thenBlock: [text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -98,7 +98,7 @@ describe("TokenCondition — toString", () => {
 
   it("ajoute le bloc else quand il est renseigné", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition(), thenBlock: [text("y")], elseBlock: [text("z")] });
+    const token = new ConditionToken({ condition: validCondition(), thenBlock: [text("y")], elseBlock: [text("z")] });
 
     // WHEN
     const result = token.toString();
@@ -109,7 +109,7 @@ describe("TokenCondition — toString", () => {
 
   it("rend un bloc then vide sans échouer", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition() });
+    const token = new ConditionToken({ condition: validCondition() });
 
     // WHEN
     const result = token.toString();
@@ -120,7 +120,7 @@ describe("TokenCondition — toString", () => {
 
   it("concatène plusieurs jetons dans chaque bloc", () => {
     // GIVEN
-    const token = new TokenCondition({
+    const token = new ConditionToken({
       condition: validCondition(),
       thenBlock: [text("y1"), text("y2")],
       elseBlock: [text("z1"), text("z2")],
@@ -135,7 +135,7 @@ describe("TokenCondition — toString", () => {
 
   it("n'interpole rien pour une condition cachée bien que celle-ci reste valide", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition(true), thenBlock: [text("y")] });
+    const token = new ConditionToken({ condition: validCondition(true), thenBlock: [text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -146,7 +146,7 @@ describe("TokenCondition — toString", () => {
 
   it("rend le message d'erreur quand la condition est invalide", () => {
     // GIVEN
-    const token = new TokenCondition({ thenBlock: [text("y")] });
+    const token = new ConditionToken({ thenBlock: [text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -157,7 +157,7 @@ describe("TokenCondition — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition(), thenBlock: [text("y")], hidden: true });
+    const token = new ConditionToken({ condition: validCondition(), thenBlock: [text("y")], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -167,10 +167,10 @@ describe("TokenCondition — toString", () => {
   });
 });
 
-describe("TokenCondition — getTitle", () => {
+describe("ConditionToken — getTitle", () => {
   it("renvoie le libellé de condition", () => {
     // GIVEN
-    const token = new TokenCondition({ condition: validCondition() });
+    const token = new ConditionToken({ condition: validCondition() });
 
     // WHEN
     const title = token.getTitle();
@@ -181,7 +181,7 @@ describe("TokenCondition — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenCondition({ hidden: true });
+    const token = new ConditionToken({ hidden: true });
 
     // WHEN
     const title = token.getTitle();

@@ -1,20 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { TokenColumn } from "../../src/class/token-column.js";
-import { TokenHeaderWithList } from "../../src/class/token-header-with-list.js";
-import { TokenList } from "../../src/class/token-list.js";
+import { ColumnToken } from "../../src/class/column.token.js";
+import { HeaderWithListToken } from "../../src/class/header-with-list.token.js";
+import { ListToken } from "../../src/class/list.token.js";
 import { SEPARATORS } from "../../src/constants/separator.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { makeColumn, makeList, text } from "../helpers/fixtures.js";
 
-describe("TokenHeaderWithList — constructeur", () => {
+describe("HeaderWithListToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenHeaderWithList(input);
+    const token = new HeaderWithListToken(input);
 
     // THEN
     expect(token).toEqual(
@@ -27,7 +27,7 @@ describe("TokenHeaderWithList — constructeur", () => {
     const input = {};
 
     // WHEN
-    const token = new TokenHeaderWithList(input);
+    const token = new HeaderWithListToken(input);
 
     // THEN
     expect(token.separator).toBe(";");
@@ -39,7 +39,7 @@ describe("TokenHeaderWithList — constructeur", () => {
     const input = { list, columns: [makeColumn("C1", "v1")] };
 
     // WHEN
-    const token = new TokenHeaderWithList(input);
+    const token = new HeaderWithListToken(input);
 
     // THEN
     expect(token.list).toBe(list);
@@ -47,10 +47,10 @@ describe("TokenHeaderWithList — constructeur", () => {
   });
 });
 
-describe("TokenHeaderWithList — isValid", () => {
+describe("HeaderWithListToken — isValid", () => {
   it("accepte un en-tête doté d'une liste", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList() });
+    const token = new HeaderWithListToken({ list: makeList() });
 
     // WHEN
     const result = token.isValid();
@@ -61,7 +61,7 @@ describe("TokenHeaderWithList — isValid", () => {
 
   it("rejette un en-tête sans liste", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({});
+    const token = new HeaderWithListToken({});
 
     // WHEN
     const result = token.isValid();
@@ -72,7 +72,7 @@ describe("TokenHeaderWithList — isValid", () => {
 
   it("reste valide même sans colonne", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList(), columns: [] });
+    const token = new HeaderWithListToken({ list: makeList(), columns: [] });
 
     // WHEN
     const result = token.isValid();
@@ -82,10 +82,10 @@ describe("TokenHeaderWithList — isValid", () => {
   });
 });
 
-describe("TokenHeaderWithList — toString", () => {
+describe("HeaderWithListToken — toString", () => {
   it("rend le message d'erreur quand la liste est absente", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({});
+    const token = new HeaderWithListToken({});
 
     // WHEN
     const result = token.toString();
@@ -96,7 +96,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("rend le message d'erreur quand la liste est invalide", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: new TokenList({}), columns: [makeColumn("C1", "v1")] });
+    const token = new HeaderWithListToken({ list: new ListToken({}), columns: [makeColumn("C1", "v1")] });
 
     // WHEN
     const result = token.toString();
@@ -107,8 +107,8 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("ne rend que la ligne de titres quand la liste est cachée", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
-      list: new TokenList({ value: "liste", alias: "a", hidden: true }),
+    const token = new HeaderWithListToken({
+      list: new ListToken({ value: "liste", alias: "a", hidden: true }),
       columns: [makeColumn("C1", "v1")],
     });
 
@@ -121,8 +121,8 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("rend les enfants de la liste après le contenu des colonnes", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
-      list: new TokenList({ value: "liste", alias: "a", children: [text("ENFANT")] }),
+    const token = new HeaderWithListToken({
+      list: new ListToken({ value: "liste", alias: "a", children: [text("ENFANT")] }),
       columns: [makeColumn("C1", "v1")],
     });
 
@@ -135,8 +135,8 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("honore le jumpLine de la liste", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
-      list: new TokenList({ value: "liste", alias: "a", jumpLine: false }),
+    const token = new HeaderWithListToken({
+      list: new ListToken({ value: "liste", alias: "a", jumpLine: false }),
       columns: [makeColumn("C1", "v1")],
     });
 
@@ -149,7 +149,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("assemble la ligne de titres et la liste", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
+    const token = new HeaderWithListToken({
       list: makeList(),
       columns: [makeColumn("C1", "v1"), makeColumn("C2", "v2")],
     });
@@ -163,7 +163,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("applique le séparateur fourni aux titres comme au contenu", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
+    const token = new HeaderWithListToken({
       list: makeList(),
       columns: [makeColumn("C1", "v1"), makeColumn("C2", "v2")],
       separator: SEPARATORS.COMMA.value,
@@ -178,7 +178,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("ignore entièrement les colonnes cachées, titre compris", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
+    const token = new HeaderWithListToken({
       list: makeList(),
       columns: [makeColumn("C1", "v1"), makeColumn("C2", "v2", true), makeColumn("C3", "v3")],
     });
@@ -192,7 +192,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("produit des lignes vides quand toutes les colonnes sont cachées", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList(), columns: [makeColumn("C1", "v1", true)] });
+    const token = new HeaderWithListToken({ list: makeList(), columns: [makeColumn("C1", "v1", true)] });
 
     // WHEN
     const result = token.toString();
@@ -203,7 +203,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("produit des lignes vides quand il n'y a aucune colonne", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList() });
+    const token = new HeaderWithListToken({ list: makeList() });
 
     // WHEN
     const result = token.toString();
@@ -214,7 +214,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("intègre le message d'erreur d'une colonne invalide", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList(), columns: [new TokenColumn({ content: [text("v1")] })] });
+    const token = new HeaderWithListToken({ list: makeList(), columns: [new ColumnToken({ content: [text("v1")] })] });
 
     // WHEN
     const result = token.toString();
@@ -225,8 +225,8 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("utilise le préfixe de la liste, y compris ses parents", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({
-      list: new TokenList({ value: "liste", alias: "a", parent: ["p"] }),
+    const token = new HeaderWithListToken({
+      list: new ListToken({ value: "liste", alias: "a", parent: ["p"] }),
       columns: [makeColumn("C1", "v1")],
     });
 
@@ -239,7 +239,7 @@ describe("TokenHeaderWithList — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList(), columns: [makeColumn("C1", "v1")], hidden: true });
+    const token = new HeaderWithListToken({ list: makeList(), columns: [makeColumn("C1", "v1")], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -249,10 +249,10 @@ describe("TokenHeaderWithList — toString", () => {
   });
 });
 
-describe("TokenHeaderWithList — getTitle", () => {
+describe("HeaderWithListToken — getTitle", () => {
   it("renvoie le libellé dédié", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ list: makeList() });
+    const token = new HeaderWithListToken({ list: makeList() });
 
     // WHEN
     const title = token.getTitle();
@@ -263,7 +263,7 @@ describe("TokenHeaderWithList — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenHeaderWithList({ hidden: true });
+    const token = new HeaderWithListToken({ hidden: true });
 
     // WHEN
     const title = token.getTitle();

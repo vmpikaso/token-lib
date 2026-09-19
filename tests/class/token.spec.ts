@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { FieldToken } from "../../src/class/field.token.js";
 import { Token } from "../../src/class/token.js";
-import { TokenField } from "../../src/class/token-field.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import type { ITokenGlobal } from "../../src/interfaces/token-global.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
+import type { IAnyToken } from "../../src/interfaces/any.token.js";
 import type { TokenTypes } from "../../src/interfaces/utils.js";
 import { text } from "../helpers/fixtures.js";
 
@@ -86,7 +86,7 @@ describe("Token — getId / reset", () => {
     new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // WHEN
-    const field = new TokenField({ value: "x" });
+    const field = new FieldToken({ value: "x" });
 
     // THEN
     expect(field.getId()).toBe(1);
@@ -154,7 +154,7 @@ describe("Token — toString", () => {
 
   it("rend un tableau de jetons via Array.prototype.toString", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [text("a"), text("b")] });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken[]>({ type: TOKEN_TYPE.TEXT, value: [text("a"), text("b")] });
 
     // WHEN
     const result = token.toString();
@@ -165,7 +165,7 @@ describe("Token — toString", () => {
 
   it("délègue le rendu à un jeton imbriqué passé comme valeur", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("imbriqué") });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken>({ type: TOKEN_TYPE.TEXT, value: text("imbriqué") });
 
     // WHEN
     const result = token.toString();
@@ -200,7 +200,7 @@ describe("Token — isValid", () => {
 
   it("accepte un tableau non vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [text("a")] });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken[]>({ type: TOKEN_TYPE.TEXT, value: [text("a")] });
 
     // WHEN
     const result = token.isValid();
@@ -211,7 +211,7 @@ describe("Token — isValid", () => {
 
   it("rejette un tableau vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [] });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken[]>({ type: TOKEN_TYPE.TEXT, value: [] });
 
     // WHEN
     const result = token.isValid();
@@ -222,7 +222,7 @@ describe("Token — isValid", () => {
 
   it("accepte un jeton imbriqué dont la valeur est non vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("x") });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken>({ type: TOKEN_TYPE.TEXT, value: text("x") });
 
     // WHEN
     const result = token.isValid();
@@ -233,7 +233,7 @@ describe("Token — isValid", () => {
 
   it("rejette un jeton imbriqué dont la valeur est vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("") });
+    const token = new Token<TokenTypes["TEXT"], IAnyToken>({ type: TOKEN_TYPE.TEXT, value: text("") });
 
     // WHEN
     const result = token.isValid();

@@ -1,19 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { TokenExpression } from "../../src/class/token-expression.js";
-import { TokenOperator } from "../../src/class/token-operator.js";
+import { ExpressionToken } from "../../src/class/expression.token.js";
+import { OperatorToken } from "../../src/class/operator.token.js";
 import { OPERATORS } from "../../src/constants/operators.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
-describe("TokenExpression — constructeur", () => {
+describe("ExpressionToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenExpression(input);
+    const token = new ExpressionToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.EXPRESSION, expression: [], value: "", hidden: false }));
@@ -24,17 +24,17 @@ describe("TokenExpression — constructeur", () => {
     const input = { expression: [text("a")] };
 
     // WHEN
-    const token = new TokenExpression(input);
+    const token = new ExpressionToken(input);
 
     // THEN
     expect(token.expression).toHaveLength(1);
   });
 });
 
-describe("TokenExpression — isValid", () => {
+describe("ExpressionToken — isValid", () => {
   it("accepte une expression non vide", () => {
     // GIVEN
-    const token = new TokenExpression({ expression: [text("a")] });
+    const token = new ExpressionToken({ expression: [text("a")] });
 
     // WHEN
     const result = token.isValid();
@@ -45,7 +45,7 @@ describe("TokenExpression — isValid", () => {
 
   it("rejette une expression vide", () => {
     // GIVEN
-    const token = new TokenExpression({});
+    const token = new ExpressionToken({});
 
     // WHEN
     const result = token.isValid();
@@ -55,10 +55,10 @@ describe("TokenExpression — isValid", () => {
   });
 });
 
-describe("TokenExpression — toString", () => {
+describe("ExpressionToken — toString", () => {
   it("encadre un membre unique par les marqueurs d'expression", () => {
     // GIVEN
-    const token = new TokenExpression({ expression: [text("a")] });
+    const token = new ExpressionToken({ expression: [text("a")] });
 
     // WHEN
     const result = token.toString();
@@ -69,8 +69,8 @@ describe("TokenExpression — toString", () => {
 
   it("concatène les membres sans séparateur", () => {
     // GIVEN
-    const token = new TokenExpression({
-      expression: [text("a"), new TokenOperator({ value: OPERATORS.EQUAL.value }), text("b")],
+    const token = new ExpressionToken({
+      expression: [text("a"), new OperatorToken({ value: OPERATORS.EQUAL.value }), text("b")],
     });
 
     // WHEN
@@ -82,7 +82,7 @@ describe("TokenExpression — toString", () => {
 
   it("ignore les membres cachés", () => {
     // GIVEN
-    const token = new TokenExpression({ expression: [text("a"), text("b", true)] });
+    const token = new ExpressionToken({ expression: [text("a"), text("b", true)] });
 
     // WHEN
     const result = token.toString();
@@ -93,7 +93,7 @@ describe("TokenExpression — toString", () => {
 
   it("rend le message d'erreur quand l'expression est vide", () => {
     // GIVEN
-    const token = new TokenExpression({});
+    const token = new ExpressionToken({});
 
     // WHEN
     const result = token.toString();
@@ -104,7 +104,7 @@ describe("TokenExpression — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenExpression({ expression: [text("a")], hidden: true });
+    const token = new ExpressionToken({ expression: [text("a")], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -114,10 +114,10 @@ describe("TokenExpression — toString", () => {
   });
 });
 
-describe("TokenExpression — getTitle", () => {
+describe("ExpressionToken — getTitle", () => {
   it("renvoie le libellé d'expression", () => {
     // GIVEN
-    const token = new TokenExpression({ expression: [text("a")] });
+    const token = new ExpressionToken({ expression: [text("a")] });
 
     // WHEN
     const title = token.getTitle();
@@ -128,7 +128,7 @@ describe("TokenExpression — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenExpression({ hidden: true });
+    const token = new ExpressionToken({ hidden: true });
 
     // WHEN
     const title = token.getTitle();

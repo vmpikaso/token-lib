@@ -1,21 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { TokenContainer } from "../../src/class/token-container.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import type { ITokenContainerType } from "../../src/interfaces/token.js";
+import { ContainerToken } from "../../src/class/container.token.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
+import type { ContainerTokenType } from "../../src/interfaces/token.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
-/** Un type hors de l'union ITokenContainerType : seul moyen d'atteindre les branches `default`. */
-const UNKNOWN_TYPE = TOKEN_TYPE.TEXT as unknown as ITokenContainerType;
+/** Un type hors de l'union ContainerTokenType : seul moyen d'atteindre les branches `default`. */
+const UNKNOWN_TYPE = TOKEN_TYPE.TEXT as unknown as ContainerTokenType;
 
-describe("TokenContainer — constructeur", () => {
+describe("ContainerToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenContainer(input);
+    const token = new ContainerToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.PARENTHESE, content: [], value: "", hidden: false }));
@@ -26,17 +26,17 @@ describe("TokenContainer — constructeur", () => {
     const input = { type: TOKEN_TYPE.HOOK, content: [text("x")] };
 
     // WHEN
-    const token = new TokenContainer(input);
+    const token = new ContainerToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining(input));
   });
 });
 
-describe("TokenContainer — isValid", () => {
+describe("ContainerToken — isValid", () => {
   it("accepte un conteneur avec du contenu", () => {
     // GIVEN
-    const token = new TokenContainer({ content: [text("x")] });
+    const token = new ContainerToken({ content: [text("x")] });
 
     // WHEN
     const result = token.isValid();
@@ -47,7 +47,7 @@ describe("TokenContainer — isValid", () => {
 
   it("rejette un conteneur vide", () => {
     // GIVEN
-    const token = new TokenContainer({});
+    const token = new ContainerToken({});
 
     // WHEN
     const result = token.isValid();
@@ -57,10 +57,10 @@ describe("TokenContainer — isValid", () => {
   });
 });
 
-describe("TokenContainer — toString", () => {
+describe("ContainerToken — toString", () => {
   it("encadre le contenu par des parenthèses", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.PARENTHESE, content: [text("x"), text("y")] });
+    const token = new ContainerToken({ type: TOKEN_TYPE.PARENTHESE, content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -71,7 +71,7 @@ describe("TokenContainer — toString", () => {
 
   it("encadre le contenu par des guillemets", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.QUOTE, content: [text("x"), text("y")] });
+    const token = new ContainerToken({ type: TOKEN_TYPE.QUOTE, content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -82,7 +82,7 @@ describe("TokenContainer — toString", () => {
 
   it("encadre le contenu par des accolades", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.BRACKET, content: [text("x"), text("y")] });
+    const token = new ContainerToken({ type: TOKEN_TYPE.BRACKET, content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -93,7 +93,7 @@ describe("TokenContainer — toString", () => {
 
   it("encadre le contenu par des crochets", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.HOOK, content: [text("x"), text("y")] });
+    const token = new ContainerToken({ type: TOKEN_TYPE.HOOK, content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -104,7 +104,7 @@ describe("TokenContainer — toString", () => {
 
   it("n'encadre rien pour un type inconnu", () => {
     // GIVEN
-    const token = new TokenContainer({ type: UNKNOWN_TYPE, content: [text("x"), text("y")] });
+    const token = new ContainerToken({ type: UNKNOWN_TYPE, content: [text("x"), text("y")] });
 
     // WHEN
     const result = token.toString();
@@ -115,7 +115,7 @@ describe("TokenContainer — toString", () => {
 
   it("ignore le contenu caché", () => {
     // GIVEN
-    const token = new TokenContainer({ content: [text("x"), text("y", true)] });
+    const token = new ContainerToken({ content: [text("x"), text("y", true)] });
 
     // WHEN
     const result = token.toString();
@@ -126,7 +126,7 @@ describe("TokenContainer — toString", () => {
 
   it("rend le message d'erreur avec le libellé du conteneur quand il est vide", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.QUOTE });
+    const token = new ContainerToken({ type: TOKEN_TYPE.QUOTE });
 
     // WHEN
     const result = token.toString();
@@ -137,7 +137,7 @@ describe("TokenContainer — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenContainer({ content: [text("x")], hidden: true });
+    const token = new ContainerToken({ content: [text("x")], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -147,10 +147,10 @@ describe("TokenContainer — toString", () => {
   });
 });
 
-describe("TokenContainer — getTitle", () => {
+describe("ContainerToken — getTitle", () => {
   it("libelle une parenthèse", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.PARENTHESE });
+    const token = new ContainerToken({ type: TOKEN_TYPE.PARENTHESE });
 
     // WHEN
     const title = token.getTitle();
@@ -161,7 +161,7 @@ describe("TokenContainer — getTitle", () => {
 
   it("libelle un guillemet", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.QUOTE });
+    const token = new ContainerToken({ type: TOKEN_TYPE.QUOTE });
 
     // WHEN
     const title = token.getTitle();
@@ -172,7 +172,7 @@ describe("TokenContainer — getTitle", () => {
 
   it("libelle une accolade", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.BRACKET });
+    const token = new ContainerToken({ type: TOKEN_TYPE.BRACKET });
 
     // WHEN
     const title = token.getTitle();
@@ -183,7 +183,7 @@ describe("TokenContainer — getTitle", () => {
 
   it("libelle un crochet", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.HOOK });
+    const token = new ContainerToken({ type: TOKEN_TYPE.HOOK });
 
     // WHEN
     const title = token.getTitle();
@@ -194,7 +194,7 @@ describe("TokenContainer — getTitle", () => {
 
   it("retombe sur le libellé générique pour un type inconnu", () => {
     // GIVEN
-    const token = new TokenContainer({ type: UNKNOWN_TYPE });
+    const token = new ContainerToken({ type: UNKNOWN_TYPE });
 
     // WHEN
     const title = token.getTitle();
@@ -205,7 +205,7 @@ describe("TokenContainer — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenContainer({ type: TOKEN_TYPE.BRACKET, hidden: true });
+    const token = new ContainerToken({ type: TOKEN_TYPE.BRACKET, hidden: true });
 
     // WHEN
     const title = token.getTitle();

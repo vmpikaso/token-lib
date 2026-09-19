@@ -3,16 +3,16 @@ import * as api from "../src/index.js";
 
 const CLASSES = [
   "Token",
-  "TokenColumn",
-  "TokenCondition",
-  "TokenContainer",
-  "TokenExpression",
-  "TokenField",
-  "TokenHeader",
-  "TokenHeaderWithList",
-  "TokenList",
-  "TokenOperator",
-  "TokenText",
+  "ColumnToken",
+  "ConditionToken",
+  "ContainerToken",
+  "ExpressionToken",
+  "FieldToken",
+  "HeaderToken",
+  "HeaderWithListToken",
+  "ListToken",
+  "OperatorToken",
+  "TextToken",
 ] as const;
 
 const CONSTANTS = ["OPERATORS", "OPERATOR_VALUES", "SEPARATORS", "TOKEN_TITLE", "TOKEN_TYPE"] as const;
@@ -75,7 +75,7 @@ describe("surface publique du barrel", () => {
 
   it("expose des classes réellement instanciables", () => {
     // GIVEN
-    const token = new api.TokenField({ value: "nom" });
+    const token = new api.FieldToken({ value: "nom" });
 
     // WHEN
     const result = token.toString();

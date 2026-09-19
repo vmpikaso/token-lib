@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { TokenHeader } from "../../src/class/token-header.js";
+import { HeaderToken } from "../../src/class/header.token.js";
 import { SEPARATORS } from "../../src/constants/separator.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 
-describe("TokenHeader — constructeur", () => {
+describe("HeaderToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenHeader(input);
+    const token = new HeaderToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.HEADER, content: [], hidden: false }));
@@ -22,7 +22,7 @@ describe("TokenHeader — constructeur", () => {
     const input = {};
 
     // WHEN
-    const token = new TokenHeader(input);
+    const token = new HeaderToken(input);
 
     // THEN
     expect(token.separator).toBe(SEPARATORS.SEMICOLON.value);
@@ -34,7 +34,7 @@ describe("TokenHeader — constructeur", () => {
     const input = { content: ["a"] };
 
     // WHEN
-    const token = new TokenHeader(input);
+    const token = new HeaderToken(input);
 
     // THEN
     expect(token.value).toBe("");
@@ -45,17 +45,17 @@ describe("TokenHeader — constructeur", () => {
     const input = { separator: SEPARATORS.COMMA.value };
 
     // WHEN
-    const token = new TokenHeader(input);
+    const token = new HeaderToken(input);
 
     // THEN
     expect(token.separator).toBe(SEPARATORS.COMMA.value);
   });
 });
 
-describe("TokenHeader — isValid", () => {
+describe("HeaderToken — isValid", () => {
   it("accepte un en-tête avec du contenu", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a"] });
+    const token = new HeaderToken({ content: ["a"] });
 
     // WHEN
     const result = token.isValid();
@@ -66,7 +66,7 @@ describe("TokenHeader — isValid", () => {
 
   it("rejette un en-tête sans contenu", () => {
     // GIVEN
-    const token = new TokenHeader({});
+    const token = new HeaderToken({});
 
     // WHEN
     const result = token.isValid();
@@ -76,10 +76,10 @@ describe("TokenHeader — isValid", () => {
   });
 });
 
-describe("TokenHeader — toString", () => {
+describe("HeaderToken — toString", () => {
   it("joint le contenu par des points-virgules et termine par un saut de ligne", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a", "b"] });
+    const token = new HeaderToken({ content: ["a", "b"] });
 
     // WHEN
     const result = token.toString();
@@ -90,7 +90,7 @@ describe("TokenHeader — toString", () => {
 
   it("utilise le séparateur fourni", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a", "b"], separator: SEPARATORS.COMMA.value });
+    const token = new HeaderToken({ content: ["a", "b"], separator: SEPARATORS.COMMA.value });
 
     // WHEN
     const result = token.toString();
@@ -101,7 +101,7 @@ describe("TokenHeader — toString", () => {
 
   it("n'ajoute pas de séparateur pour une seule colonne", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a"] });
+    const token = new HeaderToken({ content: ["a"] });
 
     // WHEN
     const result = token.toString();
@@ -112,7 +112,7 @@ describe("TokenHeader — toString", () => {
 
   it("rend le message d'erreur quand l'en-tête est vide", () => {
     // GIVEN
-    const token = new TokenHeader({});
+    const token = new HeaderToken({});
 
     // WHEN
     const result = token.toString();
@@ -123,7 +123,7 @@ describe("TokenHeader — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a"], hidden: true });
+    const token = new HeaderToken({ content: ["a"], hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -133,10 +133,10 @@ describe("TokenHeader — toString", () => {
   });
 });
 
-describe("TokenHeader — getTitle", () => {
+describe("HeaderToken — getTitle", () => {
   it("renvoie le libellé d'en-tête", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a"] });
+    const token = new HeaderToken({ content: ["a"] });
 
     // WHEN
     const title = token.getTitle();
@@ -147,7 +147,7 @@ describe("TokenHeader — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenHeader({ hidden: true });
+    const token = new HeaderToken({ hidden: true });
 
     // WHEN
     const title = token.getTitle();

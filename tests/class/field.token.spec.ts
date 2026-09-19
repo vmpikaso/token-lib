@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { TokenField } from "../../src/class/token-field.js";
-import { TOKEN_TITLE } from "../../src/constants/token-title.js";
-import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { FieldToken } from "../../src/class/field.token.js";
+import { TOKEN_TITLE } from "../../src/constants/token.title.js";
+import { TOKEN_TYPE } from "../../src/constants/token.type.js";
 import { getErrorMessage } from "../../src/utils/error-message.js";
 
-describe("TokenField — constructeur", () => {
+describe("FieldToken — constructeur", () => {
   it("applique les valeurs par défaut", () => {
     // GIVEN
     const input = {};
 
     // WHEN
-    const token = new TokenField(input);
+    const token = new FieldToken(input);
 
     // THEN
     expect(token).toEqual(
@@ -30,17 +30,17 @@ describe("TokenField — constructeur", () => {
     const input = { value: "nom", options: ["upper"], addQuote: false, parent: "user", hidden: true };
 
     // WHEN
-    const token = new TokenField(input);
+    const token = new FieldToken(input);
 
     // THEN
     expect(token).toEqual(expect.objectContaining(input));
   });
 });
 
-describe("TokenField — toString", () => {
+describe("FieldToken — toString", () => {
   it("entoure le champ de guillemets par défaut", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom" });
+    const token = new FieldToken({ value: "nom" });
 
     // WHEN
     const result = token.toString();
@@ -51,7 +51,7 @@ describe("TokenField — toString", () => {
 
   it("omet les guillemets quand addQuote est faux", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", addQuote: false });
+    const token = new FieldToken({ value: "nom", addQuote: false });
 
     // WHEN
     const result = token.toString();
@@ -62,7 +62,7 @@ describe("TokenField — toString", () => {
 
   it("préfixe par le parent quand il est renseigné", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", parent: "user" });
+    const token = new FieldToken({ value: "nom", parent: "user" });
 
     // WHEN
     const result = token.toString();
@@ -73,7 +73,7 @@ describe("TokenField — toString", () => {
 
   it("ignore un parent vide", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", parent: "" });
+    const token = new FieldToken({ value: "nom", parent: "" });
 
     // WHEN
     const result = token.toString();
@@ -84,7 +84,7 @@ describe("TokenField — toString", () => {
 
   it("ajoute une seule option", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", options: ["upper"] });
+    const token = new FieldToken({ value: "nom", options: ["upper"] });
 
     // WHEN
     const result = token.toString();
@@ -95,7 +95,7 @@ describe("TokenField — toString", () => {
 
   it("ajoute plusieurs options séparées par une barre verticale", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", options: ["upper", "trim"] });
+    const token = new FieldToken({ value: "nom", options: ["upper", "trim"] });
 
     // WHEN
     const result = token.toString();
@@ -106,7 +106,7 @@ describe("TokenField — toString", () => {
 
   it("combine parent, options et absence de guillemets", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", parent: "user", options: ["upper"], addQuote: false });
+    const token = new FieldToken({ value: "nom", parent: "user", options: ["upper"], addQuote: false });
 
     // WHEN
     const result = token.toString();
@@ -117,7 +117,7 @@ describe("TokenField — toString", () => {
 
   it("rend le message d'erreur quand le champ n'a pas de valeur", () => {
     // GIVEN
-    const token = new TokenField({});
+    const token = new FieldToken({});
 
     // WHEN
     const result = token.toString();
@@ -128,7 +128,7 @@ describe("TokenField — toString", () => {
 
   it("rend le message d'erreur même avec des options renseignées", () => {
     // GIVEN
-    const token = new TokenField({ options: ["upper"] });
+    const token = new FieldToken({ options: ["upper"] });
 
     // WHEN
     const result = token.toString();
@@ -139,7 +139,7 @@ describe("TokenField — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", hidden: true });
+    const token = new FieldToken({ value: "nom", hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -149,10 +149,10 @@ describe("TokenField — toString", () => {
   });
 });
 
-describe("TokenField — getTitle", () => {
+describe("FieldToken — getTitle", () => {
   it("utilise le préfixe du champ quand il est valide", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom" });
+    const token = new FieldToken({ value: "nom" });
 
     // WHEN
     const title = token.getTitle();
@@ -163,7 +163,7 @@ describe("TokenField — getTitle", () => {
 
   it("intègre le parent dans le libellé", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", parent: "user" });
+    const token = new FieldToken({ value: "nom", parent: "user" });
 
     // WHEN
     const title = token.getTitle();
@@ -174,7 +174,7 @@ describe("TokenField — getTitle", () => {
 
   it("n'intègre pas les options dans le libellé", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", options: ["upper"] });
+    const token = new FieldToken({ value: "nom", options: ["upper"] });
 
     // WHEN
     const title = token.getTitle();
@@ -185,7 +185,7 @@ describe("TokenField — getTitle", () => {
 
   it("retombe sur le libellé générique quand le champ est invalide", () => {
     // GIVEN
-    const token = new TokenField({});
+    const token = new FieldToken({});
 
     // WHEN
     const title = token.getTitle();
@@ -196,7 +196,7 @@ describe("TokenField — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom", hidden: true });
+    const token = new FieldToken({ value: "nom", hidden: true });
 
     // WHEN
     const title = token.getTitle();
@@ -206,10 +206,10 @@ describe("TokenField — getTitle", () => {
   });
 });
 
-describe("TokenField — isValid", () => {
+describe("FieldToken — isValid", () => {
   it("accepte un champ avec une valeur", () => {
     // GIVEN
-    const token = new TokenField({ value: "nom" });
+    const token = new FieldToken({ value: "nom" });
 
     // WHEN
     const result = token.isValid();
@@ -220,7 +220,7 @@ describe("TokenField — isValid", () => {
 
   it("rejette un champ sans valeur", () => {
     // GIVEN
-    const token = new TokenField({});
+    const token = new FieldToken({});
 
     // WHEN
     const result = token.isValid();

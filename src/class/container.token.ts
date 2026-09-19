@@ -1,15 +1,15 @@
-import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
-import type { ITokenContainer, ITokenContainerType } from "../interfaces/token.js";
-import type { TokenContainerConstructor } from "../interfaces/token-constructor.js";
-import type { TokenGlobal } from "../interfaces/token-global.js";
+import { TOKEN_TITLE } from "../constants/token.title.js";
+import { TOKEN_TYPE } from "../constants/token.type.js";
+import type { AnyToken } from "../interfaces/any.token.js";
+import type { ContainerTokenConstructor } from "../interfaces/token.constructor.js";
+import type { ContainerTokenType, IContainerToken } from "../interfaces/token.js";
 import { arrayToString } from "../utils/array-to-string.js";
 import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
-export class TokenContainer extends Token<ITokenContainerType> implements ITokenContainer {
-  content: TokenGlobal[];
-  constructor(token: TokenContainerConstructor) {
+export class ContainerToken extends Token<ContainerTokenType> implements IContainerToken {
+  content: AnyToken[];
+  constructor(token: ContainerTokenConstructor) {
     const { type = TOKEN_TYPE.PARENTHESE, content = [] } = token;
     super({ type, value: "", hidden: token.hidden });
     this.content = content;
