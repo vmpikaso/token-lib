@@ -1,3 +1,4 @@
+import type { Operator } from "../constants/operators.js";
 import type { Separator } from "../constants/separator.js";
 import type { ITokenGlobal } from "./token-global.js";
 import type { TokenType, TokenTypes, TokenValue } from "./utils.js";
@@ -12,7 +13,7 @@ export type ITokenContainerType = TokenTypes["HOOK" | "BRACKET" | "PARENTHESE" |
 
 export interface ITokenText extends IToken<ITokenTextType> {}
 
-export interface ITokenOperator extends IToken<TokenTypes["OPERATOR"]> {}
+export interface ITokenOperator extends IToken<TokenTypes["OPERATOR"], Operator> {}
 
 export interface ITokenField extends IToken<TokenTypes["FIELD"]> {
   options: string[];

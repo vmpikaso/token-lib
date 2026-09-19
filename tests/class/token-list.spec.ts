@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { TokenList } from "../../src/class/token-list.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
 describe("TokenList — constructeur", () => {
@@ -208,7 +208,7 @@ describe("TokenList — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.LIST));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.LIST));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

@@ -20,6 +20,28 @@
       "preset": "recommended",
       "suspicious": {
         "noThenProperty": "off"
+      },
+      "style": {
+        // camelCase pour les fonctions, PascalCase pour les classes et les types.
+        // Les tables de constantes (TOKEN_TYPE, OPERATORS…) gardent des clés en CONSTANT_CASE.
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            // Le préfixe `I` des interfaces est une convention assumée du projet.
+            "strictCase": false,
+            "conventions": [
+              {
+                "selector": { "kind": "objectLiteralProperty" },
+                "formats": ["camelCase", "CONSTANT_CASE"]
+              }
+            ]
+          }
+        },
+        // `public` est la visibilité par défaut : on ne l'écrit pas, comme sur les champs.
+        "useConsistentMemberAccessibility": {
+          "level": "error",
+          "options": { "accessibility": "noPublic" }
+        }
       }
     }
   },

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { TokenField } from "../../src/class/token-field.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 
 describe("TokenField — constructeur", () => {
   it("applique les valeurs par défaut", () => {
@@ -123,7 +123,7 @@ describe("TokenField — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.FIELD));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.FIELD));
   });
 
   it("rend le message d'erreur même avec des options renseignées", () => {
@@ -134,7 +134,7 @@ describe("TokenField — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.FIELD));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.FIELD));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

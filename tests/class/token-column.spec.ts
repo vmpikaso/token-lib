@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { TokenColumn } from "../../src/class/token-column.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
 describe("TokenColumn — constructeur", () => {
@@ -95,7 +95,7 @@ describe("TokenColumn — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.COLUMN));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.COLUMN));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

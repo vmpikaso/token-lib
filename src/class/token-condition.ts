@@ -3,7 +3,9 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenCondition } from "../interfaces/token.js";
 import type { TokenConditionConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
+import type { TokenTypes } from "../interfaces/utils.js";
+import { arrayToString } from "../utils/array-to-string.js";
+import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 import { TokenExpression } from "./token-expression.js";
 
@@ -22,18 +24,18 @@ export class TokenCondition extends Token<TokenTypes["CONDITION"]> implements IT
 
   protected override _render(): string {
     if (this.isValid()) {
-      const prefix = `##if ${this.condition}##then ${ArrayToString(this.then)} `;
-      const text = this.else.length === 0 ? "" : `##else ${ArrayToString(this.else)}`;
+      const prefix = `##if ${this.condition}##then ${arrayToString(this.then)} `;
+      const text = this.else.length === 0 ? "" : `##else ${arrayToString(this.else)}`;
       return `${prefix}${text}##endif `;
     }
-    return ERROR_MSG(TOKEN_TITLE.CONDITION, this.hidden);
+    return getErrorMessage(TOKEN_TITLE.CONDITION, this.hidden);
   }
 
   protected override _renderTitle(): string {
     return TOKEN_TITLE.CONDITION;
   }
 
-  public override isValid() {
+  override isValid(): boolean {
     return this.condition.isValid();
   }
 }

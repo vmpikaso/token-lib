@@ -1,19 +1,19 @@
-export type OperatorItem = { name: string; value: string };
+export type OperatorItem = { label: string; value: string };
 
 export const OPERATORS = {
-  MORE: { name: "Plus", value: "+" },
-  LESS: { name: "Moins", value: "-" },
-  MULTIPLY: { name: "Multiplié", value: "*" },
-  DIVIDE: { name: "Divisé", value: "/" },
-  MODULO: { name: "Modulo", value: "%" },
-  AND: { name: "ET", value: "&&" },
-  OR: { name: "OU", value: "||" },
-  EQUAL: { name: "Equal", value: "==" },
-  DIFFERENT: { name: "Différent", value: "!=" },
-  GREAT_THAN: { name: "Supérieur à", value: ">" },
-  GREAT_OR_EQUAL: { name: "Supérieur ou équal à", value: ">=" },
-  LESS_THAN: { name: "Inférieur à", value: "<" },
-  LESS_OR_EQUAL: { name: "Inférieur ou équal à", value: "<=" },
+  PLUS: { label: "Plus", value: "+" },
+  MINUS: { label: "Moins", value: "-" },
+  MULTIPLY: { label: "Multiplié par", value: "*" },
+  DIVIDE: { label: "Divisé par", value: "/" },
+  MODULO: { label: "Modulo", value: "%" },
+  AND: { label: "Et", value: "&&" },
+  OR: { label: "Ou", value: "||" },
+  EQUAL: { label: "Égal à", value: "==" },
+  DIFFERENT: { label: "Différent de", value: "!=" },
+  GREATER_THAN: { label: "Supérieur à", value: ">" },
+  GREATER_OR_EQUAL: { label: "Supérieur ou égal à", value: ">=" },
+  LESS_THAN: { label: "Inférieur à", value: "<" },
+  LESS_OR_EQUAL: { label: "Inférieur ou égal à", value: "<=" },
 } as const satisfies Record<string, OperatorItem>;
 
 export type Operator = (typeof OPERATORS)[keyof typeof OPERATORS]["value"];

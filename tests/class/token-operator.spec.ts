@@ -3,7 +3,7 @@ import { TokenOperator } from "../../src/class/token-operator.js";
 import { OPERATORS, type Operator } from "../../src/constants/operators.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 
 /** `toString()` court-circuite sur un jeton caché : on observe `_render` directement. */
 const render = (token: TokenOperator) => (token as unknown as { _render(): string })._render();
@@ -57,7 +57,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole + dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.PLUS.value });
 
     // WHEN
     const title = token.getTitle();
@@ -68,7 +68,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole - dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.LESS.value });
+    const token = new TokenOperator({ value: OPERATORS.MINUS.value });
 
     // WHEN
     const title = token.getTitle();
@@ -156,7 +156,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole > dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.GREAT_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.GREATER_THAN.value });
 
     // WHEN
     const title = token.getTitle();
@@ -167,7 +167,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole >= dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREATER_OR_EQUAL.value });
 
     // WHEN
     const title = token.getTitle();
@@ -200,7 +200,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.MORE.value, hidden: true });
+    const token = new TokenOperator({ value: OPERATORS.PLUS.value, hidden: true });
 
     // WHEN
     const title = token.getTitle();
@@ -213,7 +213,7 @@ describe("TokenOperator — getTitle", () => {
 describe("TokenOperator — toString", () => {
   it("rend le symbole + tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.PLUS.value });
 
     // WHEN
     const result = token.toString();
@@ -224,7 +224,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole - tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.LESS.value });
+    const token = new TokenOperator({ value: OPERATORS.MINUS.value });
 
     // WHEN
     const result = token.toString();
@@ -312,7 +312,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole > tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.GREAT_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.GREATER_THAN.value });
 
     // WHEN
     const result = token.toString();
@@ -323,7 +323,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole >= tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREATER_OR_EQUAL.value });
 
     // WHEN
     const result = token.toString();
@@ -386,7 +386,7 @@ describe("TokenOperator — état non renseigné", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.OPERATOR));
   });
 
   it("signale l'état caché dans le message d'erreur", () => {
@@ -397,7 +397,7 @@ describe("TokenOperator — état non renseigné", () => {
     const result = render(token);
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR, true));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.OPERATOR, true));
   });
 
   it("rejette un symbole qui n'appartient pas à la liste des opérateurs", () => {
@@ -419,7 +419,7 @@ describe("TokenOperator — état non renseigné", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.OPERATOR));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.OPERATOR));
   });
 });
 
@@ -429,7 +429,7 @@ describe("TokenOperator — isValid", () => {
   // symboles représentatifs suffisent ici.
   it("accepte un symbole d'un caractère", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.PLUS.value });
 
     // WHEN
     const result = token.isValid();
@@ -440,7 +440,7 @@ describe("TokenOperator — isValid", () => {
 
   it("accepte un symbole de deux caractères", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREATER_OR_EQUAL.value });
 
     // WHEN
     const result = token.isValid();

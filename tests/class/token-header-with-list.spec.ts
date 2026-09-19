@@ -5,7 +5,7 @@ import { TokenList } from "../../src/class/token-list.js";
 import { SEPARATORS } from "../../src/constants/separator.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 import { makeColumn, makeList, text } from "../helpers/fixtures.js";
 
 describe("TokenHeaderWithList — constructeur", () => {
@@ -91,7 +91,7 @@ describe("TokenHeaderWithList — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.HEADER_WITH_LIST));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.HEADER_WITH_LIST));
   });
 
   it("assemble la ligne de titres et la liste", () => {
@@ -167,7 +167,7 @@ describe("TokenHeaderWithList — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(`\n#@a="liste" ${ERROR_MSG(TOKEN_TITLE.COLUMN)}\n@#`);
+    expect(result).toBe(`\n#@a="liste" ${getErrorMessage(TOKEN_TITLE.COLUMN)}\n@#`);
   });
 
   it("utilise le préfixe de la liste, y compris ses parents", () => {

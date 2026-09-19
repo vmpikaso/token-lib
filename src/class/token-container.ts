@@ -3,7 +3,8 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenContainer, ITokenContainerType } from "../interfaces/token.js";
 import type { TokenContainerConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG } from "../interfaces/utils.js";
+import { arrayToString } from "../utils/array-to-string.js";
+import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
 export class TokenContainer extends Token<ITokenContainerType> implements ITokenContainer {
@@ -14,7 +15,7 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     this.content = content;
   }
 
-  public override isValid(): boolean {
+  override isValid(): boolean {
     return this.content.length > 0;
   }
 
@@ -22,18 +23,18 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     if (this.isValid()) {
       switch (this.type) {
         case TOKEN_TYPE.PARENTHESE:
-          return `(${ArrayToString(this.content)})`;
+          return `(${arrayToString(this.content)})`;
         case TOKEN_TYPE.QUOTE:
-          return `"${ArrayToString(this.content)}"`;
+          return `"${arrayToString(this.content)}"`;
         case TOKEN_TYPE.BRACKET:
-          return `{${ArrayToString(this.content)}}`;
+          return `{${arrayToString(this.content)}}`;
         case TOKEN_TYPE.HOOK:
-          return `[${ArrayToString(this.content)}]`;
+          return `[${arrayToString(this.content)}]`;
         default:
-          return ArrayToString(this.content);
+          return arrayToString(this.content);
       }
     }
-    return ERROR_MSG(this._renderTitle(), this.hidden);
+    return getErrorMessage(this._renderTitle(), this.hidden);
   }
 
   protected override _renderTitle(): string {

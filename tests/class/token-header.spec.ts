@@ -3,7 +3,7 @@ import { TokenHeader } from "../../src/class/token-header.js";
 import { SEPARATORS } from "../../src/constants/separator.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 
 describe("TokenHeader — constructeur", () => {
   it("applique les valeurs par défaut", () => {
@@ -118,7 +118,7 @@ describe("TokenHeader — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.HEADER));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.HEADER));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

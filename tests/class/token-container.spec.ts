@@ -3,7 +3,7 @@ import { TokenContainer } from "../../src/class/token-container.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
 import type { ITokenContainerType } from "../../src/interfaces/token.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
 /** Un type hors de l'union ITokenContainerType : seul moyen d'atteindre les branches `default`. */
@@ -132,7 +132,7 @@ describe("TokenContainer — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.QUOTE));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.QUOTE));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

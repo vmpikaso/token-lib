@@ -3,7 +3,9 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenExpression } from "../interfaces/token.js";
 import type { TokenExpressionConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
+import type { TokenTypes } from "../interfaces/utils.js";
+import { arrayToString } from "../utils/array-to-string.js";
+import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
 export class TokenExpression extends Token<TokenTypes["EXPRESSION"]> implements ITokenExpression {
@@ -17,16 +19,16 @@ export class TokenExpression extends Token<TokenTypes["EXPRESSION"]> implements 
 
   protected override _render(): string {
     if (this.isValid()) {
-      return `@&${ArrayToString(this.expression)}&@`;
+      return `@&${arrayToString(this.expression)}&@`;
     }
-    return ERROR_MSG(TOKEN_TITLE.EXPRESSION, this.hidden);
+    return getErrorMessage(TOKEN_TITLE.EXPRESSION, this.hidden);
   }
 
   protected override _renderTitle(): string {
     return TOKEN_TITLE.EXPRESSION;
   }
 
-  public override isValid() {
+  override isValid(): boolean {
     return this.expression.length > 0;
   }
 }

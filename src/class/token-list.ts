@@ -3,7 +3,9 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenList } from "../interfaces/token.js";
 import type { TokenListConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
+import type { TokenTypes } from "../interfaces/utils.js";
+import { arrayToString } from "../utils/array-to-string.js";
+import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
 export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
@@ -23,25 +25,25 @@ export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
 
   protected override _render(): string {
     if (this.isValid()) {
-      const text = this.children.length > 0 ? ArrayToString(this.children) : "";
+      const text = this.children.length > 0 ? arrayToString(this.children) : "";
       return this.getSurround(`${this.getPrefix()}${text}${this.jumpLine ? "\n" : ""}`);
     }
-    return ERROR_MSG(TOKEN_TITLE.LIST, this.hidden);
+    return getErrorMessage(TOKEN_TITLE.LIST, this.hidden);
   }
 
   protected override _renderTitle(): string {
     return this.isValid() ? `${TOKEN_TITLE.LIST}: ${this.alias}` : TOKEN_TITLE.LIST;
   }
 
-  public getPrefix(): string {
+  getPrefix(): string {
     return `${this.alias}="${this.parent.length > 0 ? `${this.parent.join(".")}.${this.value}` : this.value}" `;
   }
 
-  public getSurround(content: string): string {
+  getSurround(content: string): string {
     return `#@${content}@#`;
   }
 
-  public override isValid(): boolean {
+  override isValid(): boolean {
     return this.alias.length > 0 && this.value.length > 0;
   }
 }

@@ -18,4 +18,5 @@ export type * from "./interfaces/token.js";
 export type * from "./interfaces/token-constructor.js";
 export type * from "./interfaces/token-global.js";
 export type * from "./interfaces/utils.js";
-export { ArrayToString, ERROR_MSG } from "./interfaces/utils.js";
+export { arrayToString } from "./utils/array-to-string.js";
+export { getErrorMessage } from "./utils/error-message.js";

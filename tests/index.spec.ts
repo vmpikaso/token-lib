@@ -17,7 +17,7 @@ const CLASSES = [
 
 const CONSTANTS = ["OPERATORS", "OPERATOR_VALUES", "SEPARATORS", "TOKEN_TITLE", "TOKEN_TYPE"] as const;
 
-const HELPERS = ["ArrayToString", "ERROR_MSG"] as const;
+const HELPERS = ["arrayToString", "getErrorMessage"] as const;
 
 /**
  * Capturé au chargement du module, avant l'exécution du moindre test : vaut 0

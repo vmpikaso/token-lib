@@ -4,7 +4,7 @@ import { TokenOperator } from "../../src/class/token-operator.js";
 import { OPERATORS } from "../../src/constants/operators.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG } from "../../src/interfaces/utils.js";
+import { getErrorMessage } from "../../src/utils/error-message.js";
 import { text } from "../helpers/fixtures.js";
 
 describe("TokenExpression — constructeur", () => {
@@ -99,7 +99,7 @@ describe("TokenExpression — toString", () => {
     const result = token.toString();
 
     // THEN
-    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.EXPRESSION));
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.EXPRESSION));
   });
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {

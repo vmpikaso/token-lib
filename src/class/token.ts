@@ -27,23 +27,23 @@ export class Token<T extends TokenType = TokenTypes["TEXT"], U extends TokenValu
     return TOKEN_TITLE.TOKEN;
   }
 
-  public getId() {
+  getId() {
     return this._id;
   }
 
-  public static reset() {
+  static reset() {
     Token.currentId = 0;
   }
 
-  public getTitle(): string {
+  getTitle(): string {
     return this.hidden ? `(Caché) ${this._renderTitle()}` : this._renderTitle();
   }
 
-  public toString(): string {
+  toString(): string {
     return this.hidden ? "" : this._render();
   }
 
-  public isValid(): boolean {
+  isValid(): boolean {
     if (typeof this.value === "string") {
       return this.value.length > 0;
     }

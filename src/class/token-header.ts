@@ -3,7 +3,8 @@ import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenHeader } from "../interfaces/token.js";
 import type { TokenHeaderConstructor } from "../interfaces/token-constructor.js";
-import { ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
+import type { TokenTypes } from "../interfaces/utils.js";
+import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 
 export class TokenHeader extends Token<TokenTypes["HEADER"]> implements ITokenHeader {
@@ -18,14 +19,14 @@ export class TokenHeader extends Token<TokenTypes["HEADER"]> implements ITokenHe
   }
 
   protected override _render(): string {
-    return this.isValid() ? `${this.content.join(this.separator)}\n` : ERROR_MSG(TOKEN_TITLE.HEADER, this.hidden);
+    return this.isValid() ? `${this.content.join(this.separator)}\n` : getErrorMessage(TOKEN_TITLE.HEADER, this.hidden);
   }
 
   protected override _renderTitle(): string {
     return TOKEN_TITLE.HEADER;
   }
 
-  public override isValid(): boolean {
+  override isValid(): boolean {
     return this.content.length > 0;
   }
 }

@@ -12,7 +12,7 @@ export default defineConfig({
       reportsDirectory: "./coverage",
       include: ["src/**/*.ts"],
       // Modules purement typés : ils s'effacent à la compilation.
-      exclude: ["src/interfaces/token.ts", "src/interfaces/token-global.ts", "src/interfaces/token-constructor.ts"],
+      exclude: ["src/interfaces/**"],
     },
   },
 });
