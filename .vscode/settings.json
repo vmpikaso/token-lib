@@ -10,6 +10,5 @@
   },
   "[json]": { "editor.defaultFormatter": "biomejs.biome" },
   "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
-  "js/ts.experimental.useTsgo": false,
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+  "js/ts.experimental.useTsgo": true
 }
