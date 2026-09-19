@@ -94,6 +94,59 @@ describe("TokenHeaderWithList — toString", () => {
     expect(result).toBe(getErrorMessage(TOKEN_TITLE.HEADER_WITH_LIST));
   });
 
+  it("rend le message d'erreur quand la liste est invalide", () => {
+    // GIVEN
+    const token = new TokenHeaderWithList({ list: new TokenList({}), columns: [makeColumn("C1", "v1")] });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe(getErrorMessage(TOKEN_TITLE.HEADER_WITH_LIST));
+  });
+
+  it("ne rend que la ligne de titres quand la liste est cachée", () => {
+    // GIVEN
+    const token = new TokenHeaderWithList({
+      list: new TokenList({ value: "liste", alias: "a", hidden: true }),
+      columns: [makeColumn("C1", "v1")],
+    });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("C1\n");
+  });
+
+  it("rend les enfants de la liste après le contenu des colonnes", () => {
+    // GIVEN
+    const token = new TokenHeaderWithList({
+      list: new TokenList({ value: "liste", alias: "a", children: [text("ENFANT")] }),
+      columns: [makeColumn("C1", "v1")],
+    });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('C1\n#@a="liste" v1ENFANT\n@#');
+  });
+
+  it("honore le jumpLine de la liste", () => {
+    // GIVEN
+    const token = new TokenHeaderWithList({
+      list: new TokenList({ value: "liste", alias: "a", jumpLine: false }),
+      columns: [makeColumn("C1", "v1")],
+    });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('C1\n#@a="liste" v1@#');
+  });
+
   it("assemble la ligne de titres et la liste", () => {
     // GIVEN
     const token = new TokenHeaderWithList({

@@ -1,5 +1,4 @@
 import { TOKEN_TITLE } from "../constants/token-title.js";
-import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { IToken } from "../interfaces/token.js";
 import type { BaseTokenConstructor } from "../interfaces/token-constructor.js";
 import type { TokenType, TokenTypes, TokenValue } from "../interfaces/utils.js";
@@ -11,7 +10,7 @@ export class Token<T extends TokenType = TokenTypes["TEXT"], U extends TokenValu
   value: U;
   hidden: boolean;
 
-  constructor({ hidden = false, type = TOKEN_TYPE.TEXT as T, value = "" as U }: BaseTokenConstructor<T, U>) {
+  constructor({ hidden = false, type, value }: BaseTokenConstructor<T, U>) {
     this.type = type;
     this.value = value;
     this.hidden = hidden;

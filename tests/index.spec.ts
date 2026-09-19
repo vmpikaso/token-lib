@@ -23,7 +23,7 @@ const HELPERS = ["arrayToString", "getErrorMessage"] as const;
  * Capturé au chargement du module, avant l'exécution du moindre test : vaut 0
  * uniquement si l'import du barrel n'a construit aucun jeton lui-même.
  */
-const idOfFirstTokenAfterImport = new api.Token({}).getId();
+const idOfFirstTokenAfterImport = new api.Token({ type: api.TOKEN_TYPE.TEXT, value: "" }).getId();
 
 /** Vue indexable du barrel : l'accès dynamique au namespace lui-même est déconseillé. */
 const exported: Record<string, unknown> = api;

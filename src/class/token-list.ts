@@ -15,8 +15,8 @@ export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
   jumpLine: boolean;
 
   constructor(token: TokenListConstructor) {
-    const { children = [], parent = [], alias = "", jumpLine = true } = token;
-    super({ type: TOKEN_TYPE.LIST, value: token.value, hidden: token.hidden });
+    const { children = [], parent = [], alias = "", jumpLine = true, value = "" } = token;
+    super({ type: TOKEN_TYPE.LIST, value, hidden: token.hidden });
     this.children = children;
     this.parent = parent;
     this.alias = alias;

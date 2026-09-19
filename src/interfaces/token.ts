@@ -7,7 +7,16 @@ export interface IToken<T extends TokenType = TokenType, U extends TokenValue = 
   type: T;
   value: U;
   hidden: boolean;
+  getId(): number;
+  getTitle(): string;
+  toString(): string;
+  isValid(): boolean;
 }
+
+export type ITokenData<T extends TokenType = TokenType, U extends TokenValue = string> = Pick<
+  IToken<T, U>,
+  "type" | "value" | "hidden"
+>;
 export type ITokenTextType = TokenTypes["TEXT" | "COMMA" | "SPACE" | "JUMPLINE" | "SEPARATOR" | "NUMBER"];
 export type ITokenContainerType = TokenTypes["HOOK" | "BRACKET" | "PARENTHESE" | "QUOTE"];
 

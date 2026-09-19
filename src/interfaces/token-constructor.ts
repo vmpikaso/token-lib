@@ -8,6 +8,7 @@ import type {
   ITokenCondition,
   ITokenContainer,
   ITokenContainerType,
+  ITokenData,
   ITokenExpression,
   ITokenField,
   ITokenHeader,
@@ -52,4 +53,6 @@ export type TokenOperatorConstructor = TokenConstructor<ITokenOperator, "value",
 
 export type TokenFieldConstructor = TokenConstructor<ITokenField, "value", { value?: string }>;
 
-export type BaseTokenConstructor<T extends TokenType = TokenType, U extends TokenValue = string> = Partial<IToken<T, U>>;
+export type BaseTokenConstructor<T extends TokenType = TokenType, U extends TokenValue = string> = Prettify<
+  Pick<ITokenData<T, U>, "type" | "value"> & { hidden?: boolean }
+>;

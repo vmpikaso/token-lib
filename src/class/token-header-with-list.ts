@@ -4,6 +4,7 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenHeaderWithList } from "../interfaces/token.js";
 import type { TokenHeaderWithListConstructor } from "../interfaces/token-constructor.js";
 import type { TokenTypes } from "../interfaces/utils.js";
+import { arrayToString } from "../utils/array-to-string.js";
 import { getErrorMessage } from "../utils/error-message.js";
 import { Token } from "./token.js";
 import type { TokenColumn } from "./token-column.js";
@@ -27,7 +28,7 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
   }
 
   protected override _render(): string {
-    if (!this.list) {
+    if (!this.isValid()) {
       return getErrorMessage(TOKEN_TITLE.HEADER_WITH_LIST, this.hidden);
     }
 
@@ -42,8 +43,14 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
       { titles: [] as string[], content: [] as string[] },
     );
     const headerTitle = headerInfo.titles.join(this.separator);
+
+    if (this.list.hidden) {
+      return `${headerTitle}\n`;
+    }
+
     const content = headerInfo.content.join(this.separator);
-    const listContent = `${this.list.getPrefix()}${content}\n`;
+    const children = arrayToString(this.list.children);
+    const listContent = `${this.list.getPrefix()}${content}${children}${this.list.jumpLine ? "\n" : ""}`;
     return `${headerTitle}\n${this.list.getSurround(listContent)}`;
   }
 
@@ -51,7 +58,7 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
     return TOKEN_TITLE.HEADER_WITH_LIST;
   }
 
-  override isValid(): boolean {
-    return this.list !== undefined;
+  override isValid(): this is this & { list: TokenList } {
+    return this.list?.isValid() ?? false;
   }
 }

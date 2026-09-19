@@ -15,6 +15,7 @@
     "dist"
   ],
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "start:dev": "tsx ./examples/demo.ts",
     "test": "vitest run",

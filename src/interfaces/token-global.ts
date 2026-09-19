@@ -10,7 +10,6 @@ import type { TokenList } from "../class/token-list.js";
 import type { TokenOperator } from "../class/token-operator.js";
 import type { TokenText } from "../class/token-text.js";
 import type {
-  IToken,
   ITokenColumn,
   ITokenCondition,
   ITokenContainer,
@@ -24,7 +23,6 @@ import type {
 } from "./token.js";
 
 export type ITokenGlobal =
-  | IToken
   | ITokenText
   | ITokenField
   | ITokenList

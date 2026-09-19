@@ -12,9 +12,9 @@ beforeEach(() => {
 });
 
 describe("Token — constructeur", () => {
-  it("applique les valeurs par défaut", () => {
+  it("n'applique un défaut que sur hidden, type et value étant obligatoires", () => {
     // GIVEN
-    const input = {};
+    const input = { type: TOKEN_TYPE.TEXT, value: "" };
 
     // WHEN
     const token = new Token(input);
@@ -36,7 +36,7 @@ describe("Token — constructeur", () => {
 
   it("ne remplace pas une chaîne vide fournie explicitement", () => {
     // GIVEN
-    const input = { value: "" };
+    const input = { type: TOKEN_TYPE.TEXT, value: "" };
 
     // WHEN
     const token = new Token(input);
@@ -52,7 +52,7 @@ describe("Token — getId / reset", () => {
     Token.reset();
 
     // WHEN
-    const token = new Token({});
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // THEN
     expect(token.getId()).toBe(0);
@@ -60,7 +60,7 @@ describe("Token — getId / reset", () => {
 
   it("attribue un identifiant distinct et croissant à chaque jeton", () => {
     // GIVEN
-    const tokens = [new Token({}), new Token({}), new Token({})];
+    const tokens = [new Token({ type: TOKEN_TYPE.TEXT, value: "" }), new Token({ type: TOKEN_TYPE.TEXT, value: "" }), new Token({ type: TOKEN_TYPE.TEXT, value: "" })];
 
     // WHEN
     const ids = tokens.map((token) => token.getId());
@@ -71,11 +71,11 @@ describe("Token — getId / reset", () => {
 
   it("fige l'identifiant d'un jeton : les constructions suivantes ne le modifient pas", () => {
     // GIVEN
-    const token = new Token({});
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // WHEN
-    new Token({});
-    new Token({});
+    new Token({ type: TOKEN_TYPE.TEXT, value: "" });
+    new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // THEN
     expect(token.getId()).toBe(0);
@@ -83,7 +83,7 @@ describe("Token — getId / reset", () => {
 
   it("partage le compteur avec les sous-classes", () => {
     // GIVEN
-    new Token({});
+    new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // WHEN
     const field = new TokenField({ value: "x" });
@@ -94,21 +94,21 @@ describe("Token — getId / reset", () => {
 
   it("remet la numérotation à zéro", () => {
     // GIVEN
-    new Token({});
-    new Token({});
+    new Token({ type: TOKEN_TYPE.TEXT, value: "" });
+    new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // WHEN
     Token.reset();
 
     // THEN
-    expect(new Token({}).getId()).toBe(0);
+    expect(new Token({ type: TOKEN_TYPE.TEXT, value: "" }).getId()).toBe(0);
   });
 });
 
 describe("Token — getTitle", () => {
   it("renvoie le libellé de base quand le jeton est visible", () => {
     // GIVEN
-    const token = new Token({ value: "x" });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "x" });
 
     // WHEN
     const title = token.getTitle();
@@ -119,7 +119,7 @@ describe("Token — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new Token({ value: "x", hidden: true });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "x", hidden: true });
 
     // WHEN
     const title = token.getTitle();
@@ -132,7 +132,7 @@ describe("Token — getTitle", () => {
 describe("Token — toString", () => {
   it("rend la valeur quand le jeton est visible", () => {
     // GIVEN
-    const token = new Token({ value: "hello" });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "hello" });
 
     // WHEN
     const result = token.toString();
@@ -143,7 +143,7 @@ describe("Token — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new Token({ value: "hello", hidden: true });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "hello", hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -154,7 +154,7 @@ describe("Token — toString", () => {
 
   it("rend un tableau de jetons via Array.prototype.toString", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ value: [text("a"), text("b")] });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [text("a"), text("b")] });
 
     // WHEN
     const result = token.toString();
@@ -165,7 +165,7 @@ describe("Token — toString", () => {
 
   it("délègue le rendu à un jeton imbriqué passé comme valeur", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ value: text("imbriqué") });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("imbriqué") });
 
     // WHEN
     const result = token.toString();
@@ -178,7 +178,7 @@ describe("Token — toString", () => {
 describe("Token — isValid", () => {
   it("accepte une valeur chaîne non vide", () => {
     // GIVEN
-    const token = new Token({ value: "x" });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "x" });
 
     // WHEN
     const result = token.isValid();
@@ -189,7 +189,7 @@ describe("Token — isValid", () => {
 
   it("rejette une valeur chaîne vide", () => {
     // GIVEN
-    const token = new Token({ value: "" });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "" });
 
     // WHEN
     const result = token.isValid();
@@ -200,7 +200,7 @@ describe("Token — isValid", () => {
 
   it("accepte un tableau non vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ value: [text("a")] });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [text("a")] });
 
     // WHEN
     const result = token.isValid();
@@ -211,7 +211,7 @@ describe("Token — isValid", () => {
 
   it("rejette un tableau vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ value: [] });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal[]>({ type: TOKEN_TYPE.TEXT, value: [] });
 
     // WHEN
     const result = token.isValid();
@@ -222,7 +222,7 @@ describe("Token — isValid", () => {
 
   it("accepte un jeton imbriqué dont la valeur est non vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ value: text("x") });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("x") });
 
     // WHEN
     const result = token.isValid();
@@ -233,7 +233,7 @@ describe("Token — isValid", () => {
 
   it("rejette un jeton imbriqué dont la valeur est vide", () => {
     // GIVEN
-    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ value: text("") });
+    const token = new Token<TokenTypes["TEXT"], ITokenGlobal>({ type: TOKEN_TYPE.TEXT, value: text("") });
 
     // WHEN
     const result = token.isValid();
@@ -244,7 +244,7 @@ describe("Token — isValid", () => {
 
   it("rejette une valeur nulle plutôt que de lever une exception", () => {
     // GIVEN
-    const token = new Token({ value: null as unknown as string });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: null as unknown as string });
 
     // WHEN
     const result = token.isValid();
@@ -255,7 +255,7 @@ describe("Token — isValid", () => {
 
   it("rejette une valeur effacée après construction plutôt que de lever une exception", () => {
     // GIVEN
-    const token = new Token({ value: "x" });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "x" });
     token.value = undefined as unknown as typeof token.value;
 
     // WHEN
@@ -267,7 +267,7 @@ describe("Token — isValid", () => {
 
   it("ignore l'état caché pour déterminer la validité", () => {
     // GIVEN
-    const token = new Token({ value: "x", hidden: true });
+    const token = new Token({ type: TOKEN_TYPE.TEXT, value: "x", hidden: true });
 
     // WHEN
     const result = token.isValid();
