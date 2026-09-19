@@ -5,7 +5,7 @@ import type { BaseTokenConstructor } from "../interfaces/token-contructor.js";
 import type { TokenType, TokenTypeValue, TokenValue } from "../interfaces/utils.js";
 
 export class Token<T extends TokenTypeValue = TokenType["TEXT"], U extends TokenValue = string> implements IToken<T, U> {
-  private static _id: number;
+  private static _id = 0;
   type: T;
   value: U;
   hidden: boolean;
