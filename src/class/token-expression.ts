@@ -15,18 +15,18 @@ export class TokenExpression extends Token<TokenTypes["EXPRESSION"]> implements 
     this.expression = expression;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       return `@&${ArrayToString(this.expression)}&@`;
     }
     return ERROR_MSG(TOKEN_TITLE.EXPRESSION, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return TOKEN_TITLE.EXPRESSION;
   }
 
-  public isValid() {
+  public override isValid() {
     return this.expression.length > 0;
   }
 }

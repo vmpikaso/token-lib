@@ -21,7 +21,7 @@ export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
     this.jumpLine = jumpLine;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       const text = this.children.length > 0 ? ArrayToString(this.children) : "";
       return this.getSurround(`${this.getPrefix()}${text}${this.jumpLine ? "\n" : ""}`);
@@ -29,7 +29,7 @@ export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
     return ERROR_MSG(TOKEN_TITLE.LIST, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return this.isValid() ? `${TOKEN_TITLE.LIST}: ${this.alias}` : TOKEN_TITLE.LIST;
   }
 
@@ -41,7 +41,7 @@ export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
     return `#@${content}@#`;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return this.alias.length > 0 && this.value.length > 0;
   }
 }

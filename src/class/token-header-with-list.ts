@@ -25,7 +25,7 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
     this.columns = columns;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (!this.list) {
       return ERROR_MSG(TOKEN_TITLE.HEADER_WITH_LIST, this.hidden);
     }
@@ -46,11 +46,11 @@ export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> i
     return `${headerTitle}\n${this.list.getSurround(listContent)}`;
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return TOKEN_TITLE.HEADER_WITH_LIST;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return this.list !== undefined;
   }
 }

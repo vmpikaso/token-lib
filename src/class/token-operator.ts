@@ -12,15 +12,15 @@ export class TokenOperator extends Token<"operator"> implements ITokenOperator {
     super({ type: TOKEN_TYPE.OPERATOR, value, hidden: token.hidden });
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     return this.isValid() ? this.value : ERROR_MSG(TOKEN_TITLE.OPERATOR, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return this.isValid() ? `${TOKEN_TITLE.OPERATOR} ( ${this.value} )` : TOKEN_TITLE.OPERATOR;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return OPERATOR_VALUES.has(this.value as Operator);
   }
 }

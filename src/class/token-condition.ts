@@ -20,7 +20,7 @@ export class TokenCondition extends Token<TokenTypes["CONDITION"]> implements IT
     this.condition = condition;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       const prefix = `##if ${this.condition}##then ${ArrayToString(this.then)} `;
       const text = this.else.length === 0 ? "" : `##else ${ArrayToString(this.else)}`;
@@ -29,11 +29,11 @@ export class TokenCondition extends Token<TokenTypes["CONDITION"]> implements IT
     return ERROR_MSG(TOKEN_TITLE.CONDITION, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return TOKEN_TITLE.CONDITION;
   }
 
-  public isValid() {
+  public override isValid() {
     return this.condition.isValid();
   }
 }

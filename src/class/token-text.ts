@@ -8,7 +8,7 @@ export class TokenText extends Token<ITokenTextType> implements ITokenText {
     super({ type: type, value: value, hidden: hidden });
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     switch (this.type) {
       case TOKEN_TYPE.COMMA:
         return TOKEN_TITLE.COMMA;

@@ -14,11 +14,11 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     this.content = content;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return this.content.length > 0;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       switch (this.type) {
         case TOKEN_TYPE.PARENTHESE:
@@ -36,7 +36,7 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     return ERROR_MSG(this._renderTitle(), this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     switch (this.type) {
       case TOKEN_TYPE.PARENTHESE:
         return TOKEN_TITLE.PARENTHESE;

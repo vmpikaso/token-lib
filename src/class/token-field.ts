@@ -26,11 +26,11 @@ export class TokenField extends Token<TokenTypes["FIELD"]> implements ITokenFiel
     return this.parent ? `${this.parent}.${this.value}` : this.value;
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return this.isValid() ? this.getPrefix() : TOKEN_TITLE.FIELD;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       const text = this.options.length > 0 ? `|${this.options?.join("|")}` : "";
       return this.getSurround(`${this.getPrefix()}${text}`);

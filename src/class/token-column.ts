@@ -15,18 +15,18 @@ export class TokenColumn extends Token<TokenTypes["COLUMN"]> implements ITokenCo
     this.content = content;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     if (this.isValid()) {
       return this.content.length > 0 ? ArrayToString(this.content) : "";
     }
     return ERROR_MSG(TOKEN_TITLE.COLUMN, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return this.isValid() ? `${TOKEN_TITLE.COLUMN}: ${this.value}` : TOKEN_TITLE.COLUMN;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return this.value.length > 0;
   }
 }

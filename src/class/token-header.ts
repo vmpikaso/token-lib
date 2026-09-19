@@ -17,15 +17,15 @@ export class TokenHeader extends Token<TokenTypes["HEADER"]> implements ITokenHe
     this.separator = separator;
   }
 
-  protected _render(): string {
+  protected override _render(): string {
     return this.isValid() ? `${this.content.join(this.separator)}\n` : ERROR_MSG(TOKEN_TITLE.HEADER, this.hidden);
   }
 
-  protected _renderTitle(): string {
+  protected override _renderTitle(): string {
     return TOKEN_TITLE.HEADER;
   }
 
-  public isValid(): boolean {
+  public override isValid(): boolean {
     return this.content.length > 0;
   }
 }
