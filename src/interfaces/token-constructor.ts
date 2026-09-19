@@ -1,6 +1,7 @@
 import type { TokenColumn } from "../class/token-column.js";
 import type { TokenExpression } from "../class/token-expression.js";
 import type { TokenList } from "../class/token-list.js";
+import type { Operator } from "../constants/operators.js";
 import type {
   IToken,
   ITokenColumn,
@@ -15,13 +16,11 @@ import type {
   ITokenOperator,
 } from "./token.js";
 import type { TokenGlobal } from "./token-global.js";
-import type { OmitStrict, OmitTokenKey, OperatorValue, Prettify, TokenTypeValue, TokenValue } from "./utils.js";
+import type { OmitStrict, OmitTokenKey, Prettify, TokenType, TokenValue } from "./utils.js";
 
-type TokenConstructor<
-  T,
-  TOmit extends "value" | "hidden" | Exclude<keyof T, keyof IToken<TokenTypeValue, string>>,
-  TExtra,
-> = Prettify<OmitStrict<OmitTokenKey<T>, "value" | TOmit> & TExtra>;
+type TokenConstructor<T, TOmit extends "value" | "hidden" | Exclude<keyof T, keyof IToken<TokenType, string>>, TExtra> = Prettify<
+  OmitStrict<OmitTokenKey<T>, "value" | TOmit> & TExtra
+>;
 
 export type TokenExpressionConstructor = TokenConstructor<ITokenExpression, "expression", { expression?: TokenGlobal[] }>;
 
@@ -49,10 +48,8 @@ export type TokenContainerConstructor = TokenConstructor<
 
 export type TokenListConstructor = TokenConstructor<ITokenList, "children", { value?: string; children?: TokenGlobal[] }>;
 
-export type TokenOperatorConstructor = TokenConstructor<ITokenOperator, "value", { value?: OperatorValue }>;
+export type TokenOperatorConstructor = TokenConstructor<ITokenOperator, "value", { value?: Operator }>;
 
 export type TokenFieldConstructor = TokenConstructor<ITokenField, "value", { value?: string }>;
 
-export type BaseTokenConstructor<T extends TokenTypeValue = TokenTypeValue, U extends TokenValue = string> = Partial<
-  IToken<T, U>
->;
+export type BaseTokenConstructor<T extends TokenType = TokenType, U extends TokenValue = string> = Partial<IToken<T, U>>;

@@ -15,7 +15,7 @@ const CLASSES = [
   "TokenText",
 ] as const;
 
-const CONSTANTS = ["OPERATOR", "OUTPUT_FORMAT", "SEPARATOR", "TOKEN_TITLE", "TOKEN_TYPE"] as const;
+const CONSTANTS = ["OPERATORS", "OPERATOR_VALUES", "SEPARATORS", "TOKEN_TITLE", "TOKEN_TYPE"] as const;
 
 const HELPERS = ["ArrayToString", "ERROR_MSG"] as const;
 

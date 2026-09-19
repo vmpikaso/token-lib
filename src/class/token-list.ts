@@ -3,10 +3,10 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenList } from "../interfaces/token.js";
 import type { TokenListConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
-export class TokenList extends Token<TokenType["LIST"]> implements ITokenList {
+export class TokenList extends Token<TokenTypes["LIST"]> implements ITokenList {
   children: TokenGlobal[];
   parent: string[];
   alias: string;

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { TokenColumn } from "../../src/class/token-column.js";
 import { TokenHeaderWithList } from "../../src/class/token-header-with-list.js";
 import { TokenList } from "../../src/class/token-list.js";
-import { SEPARATOR } from "../../src/constants/separator.js";
+import { SEPARATORS } from "../../src/constants/separator.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
 import { ERROR_MSG } from "../../src/interfaces/utils.js";
@@ -113,7 +113,7 @@ describe("TokenHeaderWithList — toString", () => {
     const token = new TokenHeaderWithList({
       list: makeList(),
       columns: [makeColumn("C1", "v1"), makeColumn("C2", "v2")],
-      separator: SEPARATOR.COMMA.value,
+      separator: SEPARATORS.COMMA.value,
     });
 
     // WHEN

@@ -35,9 +35,7 @@ export class TokenContainer extends Token<ITokenContainerType> implements IToken
     }
     return ERROR_MSG(this._renderTitle(), this.hidden);
   }
-  //   setType(type: string) {
-  //     this.type = type;
-  //   }
+
   protected _renderTitle(): string {
     switch (this.type) {
       case TOKEN_TYPE.PARENTHESE:

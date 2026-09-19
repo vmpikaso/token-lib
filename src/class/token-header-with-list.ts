@@ -1,20 +1,20 @@
-import { SEPARATOR } from "../constants/separator.js";
+import { SEPARATORS, type Separator } from "../constants/separator.js";
 import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenHeaderWithList } from "../interfaces/token.js";
 import type { TokenHeaderWithListConstructor } from "../interfaces/token-constructor.js";
-import { ERROR_MSG, type Separator, type TokenType } from "../interfaces/utils.js";
+import { ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 import type { TokenColumn } from "./token-column.js";
 import type { TokenList } from "./token-list.js";
 
-export class TokenHeaderWithList extends Token<TokenType["HEADER_WITH_LIST"]> implements ITokenHeaderWithList {
+export class TokenHeaderWithList extends Token<TokenTypes["HEADER_WITH_LIST"]> implements ITokenHeaderWithList {
   list?: TokenList;
   separator: Separator;
   columns: TokenColumn[];
 
   constructor(token: TokenHeaderWithListConstructor) {
-    const { columns = [], separator = SEPARATOR.SEMICOLON.value } = token;
+    const { columns = [], separator = SEPARATORS.SEMICOLON.value } = token;
     super({
       type: TOKEN_TYPE.HEADER_WITH_LIST,
       value: "",

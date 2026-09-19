@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { TokenHeader } from "../../src/class/token-header.js";
-import { SEPARATOR } from "../../src/constants/separator.js";
+import { SEPARATORS } from "../../src/constants/separator.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
 import { ERROR_MSG } from "../../src/interfaces/utils.js";
@@ -25,8 +25,8 @@ describe("TokenHeader — constructeur", () => {
     const token = new TokenHeader(input);
 
     // THEN
-    expect(token.separator).toBe(SEPARATOR.SEMICOLON.value);
-    expect(SEPARATOR.SEMICOLON.value).toBe(";");
+    expect(token.separator).toBe(SEPARATORS.SEMICOLON.value);
+    expect(SEPARATORS.SEMICOLON.value).toBe(";");
   });
 
   it("force la valeur à une chaîne vide", () => {
@@ -42,13 +42,13 @@ describe("TokenHeader — constructeur", () => {
 
   it("conserve le séparateur fourni", () => {
     // GIVEN
-    const input = { separator: SEPARATOR.COMMA.value };
+    const input = { separator: SEPARATORS.COMMA.value };
 
     // WHEN
     const token = new TokenHeader(input);
 
     // THEN
-    expect(token.separator).toBe(",");
+    expect(token.separator).toBe(SEPARATORS.COMMA.value);
   });
 });
 
@@ -90,7 +90,7 @@ describe("TokenHeader — toString", () => {
 
   it("utilise le séparateur fourni", () => {
     // GIVEN
-    const token = new TokenHeader({ content: ["a", "b"], separator: SEPARATOR.COMMA.value });
+    const token = new TokenHeader({ content: ["a", "b"], separator: SEPARATORS.COMMA.value });
 
     // WHEN
     const result = token.toString();

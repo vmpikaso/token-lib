@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { TokenText } from "../../src/class/token-text.js";
-import { SEPARATOR } from "../../src/constants/separator.js";
+import { SEPARATORS } from "../../src/constants/separator.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
 
@@ -75,7 +75,7 @@ describe("TokenText — getTitle", () => {
 
   it("intègre la valeur dans le libellé d'un séparateur", () => {
     // GIVEN
-    const token = new TokenText({ type: TOKEN_TYPE.SEPARATOR, value: SEPARATOR.SEMICOLON.value });
+    const token = new TokenText({ type: TOKEN_TYPE.SEPARATOR, value: SEPARATORS.SEMICOLON.value });
 
     // WHEN
     const title = token.getTitle();

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { TokenGlobal } from "../../src/index.js";
 import { ArrayToString, ERROR_MSG } from "../../src/interfaces/utils.js";
 import { text } from "../helpers/fixtures.js";
 
@@ -51,7 +52,7 @@ describe("ERROR_MSG", () => {
 describe("ArrayToString", () => {
   it("renvoie une chaîne vide pour un tableau vide", () => {
     // GIVEN
-    const tokens = [];
+    const tokens: TokenGlobal[] = [];
 
     // WHEN
     const result = ArrayToString(tokens);

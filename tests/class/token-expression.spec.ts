@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { TokenExpression } from "../../src/class/token-expression.js";
 import { TokenOperator } from "../../src/class/token-operator.js";
-import { OPERATOR } from "../../src/constants/operators.js";
+import { OPERATORS } from "../../src/constants/operators.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
 import { ERROR_MSG } from "../../src/interfaces/utils.js";
@@ -70,7 +70,7 @@ describe("TokenExpression — toString", () => {
   it("concatène les membres sans séparateur", () => {
     // GIVEN
     const token = new TokenExpression({
-      expression: [text("a"), new TokenOperator({ value: OPERATOR.EQUAL.value }), text("b")],
+      expression: [text("a"), new TokenOperator({ value: OPERATORS.EQUAL.value }), text("b")],
     });
 
     // WHEN

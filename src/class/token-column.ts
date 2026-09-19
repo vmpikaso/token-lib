@@ -3,10 +3,10 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenColumn } from "../interfaces/token.js";
 import type { TokenColumnConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
-export class TokenColumn extends Token<TokenType["COLUMN"]> implements ITokenColumn {
+export class TokenColumn extends Token<TokenTypes["COLUMN"]> implements ITokenColumn {
   content: TokenGlobal[];
 
   constructor(token: TokenColumnConstructor) {

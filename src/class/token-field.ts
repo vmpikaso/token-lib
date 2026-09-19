@@ -2,10 +2,10 @@ import { TOKEN_TITLE } from "../constants/token-title.js";
 import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenField } from "../interfaces/token.js";
 import type { TokenFieldConstructor } from "../interfaces/token-constructor.js";
-import { ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
-export class TokenField extends Token<TokenType["FIELD"]> implements ITokenField {
+export class TokenField extends Token<TokenTypes["FIELD"]> implements ITokenField {
   options: string[];
   addQuote: boolean;
   parent?: string;

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { TokenOperator } from "../../src/class/token-operator.js";
-import { OPERATOR } from "../../src/constants/operators.js";
+import { OPERATORS, type Operator } from "../../src/constants/operators.js";
 import { TOKEN_TITLE } from "../../src/constants/token-title.js";
 import { TOKEN_TYPE } from "../../src/constants/token-type.js";
-import { ERROR_MSG, type OperatorValue } from "../../src/interfaces/utils.js";
+import { ERROR_MSG } from "../../src/interfaces/utils.js";
 
 /** `toString()` court-circuite sur un jeton caché : on observe `_render` directement. */
 const render = (token: TokenOperator) => (token as unknown as { _render(): string })._render();
@@ -33,7 +33,7 @@ describe("TokenOperator — constructeur", () => {
 
   it("conserve l'opérateur fourni", () => {
     // GIVEN
-    const input = { value: OPERATOR.AND.value };
+    const input = { value: OPERATORS.AND.value };
 
     // WHEN
     const token = new TokenOperator(input);
@@ -57,7 +57,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole + dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.MORE.value });
 
     // WHEN
     const title = token.getTitle();
@@ -68,7 +68,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole - dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS.value });
 
     // WHEN
     const title = token.getTitle();
@@ -79,7 +79,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole * dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MULTIPLY.value });
+    const token = new TokenOperator({ value: OPERATORS.MULTIPLY.value });
 
     // WHEN
     const title = token.getTitle();
@@ -90,7 +90,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole / dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.DIVIDE.value });
+    const token = new TokenOperator({ value: OPERATORS.DIVIDE.value });
 
     // WHEN
     const title = token.getTitle();
@@ -101,7 +101,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole % dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MODULO.value });
+    const token = new TokenOperator({ value: OPERATORS.MODULO.value });
 
     // WHEN
     const title = token.getTitle();
@@ -112,7 +112,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole && dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.AND.value });
+    const token = new TokenOperator({ value: OPERATORS.AND.value });
 
     // WHEN
     const title = token.getTitle();
@@ -123,7 +123,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole || dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.OR.value });
+    const token = new TokenOperator({ value: OPERATORS.OR.value });
 
     // WHEN
     const title = token.getTitle();
@@ -134,7 +134,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole == dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.EQUAL.value });
 
     // WHEN
     const title = token.getTitle();
@@ -145,7 +145,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole != dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.DIFFERENT.value });
+    const token = new TokenOperator({ value: OPERATORS.DIFFERENT.value });
 
     // WHEN
     const title = token.getTitle();
@@ -156,7 +156,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole > dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.GREAT_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.GREAT_THAN.value });
 
     // WHEN
     const title = token.getTitle();
@@ -167,7 +167,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole >= dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
 
     // WHEN
     const title = token.getTitle();
@@ -178,7 +178,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole < dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS_THAN.value });
 
     // WHEN
     const title = token.getTitle();
@@ -189,7 +189,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("intègre le symbole <= dans le libellé", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS_OR_EQUAL.value });
 
     // WHEN
     const title = token.getTitle();
@@ -200,7 +200,7 @@ describe("TokenOperator — getTitle", () => {
 
   it("préfixe le libellé quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MORE.value, hidden: true });
+    const token = new TokenOperator({ value: OPERATORS.MORE.value, hidden: true });
 
     // WHEN
     const title = token.getTitle();
@@ -213,7 +213,7 @@ describe("TokenOperator — getTitle", () => {
 describe("TokenOperator — toString", () => {
   it("rend le symbole + tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.MORE.value });
 
     // WHEN
     const result = token.toString();
@@ -224,7 +224,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole - tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS.value });
 
     // WHEN
     const result = token.toString();
@@ -235,7 +235,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole * tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MULTIPLY.value });
+    const token = new TokenOperator({ value: OPERATORS.MULTIPLY.value });
 
     // WHEN
     const result = token.toString();
@@ -246,7 +246,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole / tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.DIVIDE.value });
+    const token = new TokenOperator({ value: OPERATORS.DIVIDE.value });
 
     // WHEN
     const result = token.toString();
@@ -257,7 +257,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole % tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MODULO.value });
+    const token = new TokenOperator({ value: OPERATORS.MODULO.value });
 
     // WHEN
     const result = token.toString();
@@ -268,7 +268,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole && tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.AND.value });
+    const token = new TokenOperator({ value: OPERATORS.AND.value });
 
     // WHEN
     const result = token.toString();
@@ -279,7 +279,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole || tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.OR.value });
+    const token = new TokenOperator({ value: OPERATORS.OR.value });
 
     // WHEN
     const result = token.toString();
@@ -290,7 +290,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole == tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.EQUAL.value });
 
     // WHEN
     const result = token.toString();
@@ -301,7 +301,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole != tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.DIFFERENT.value });
+    const token = new TokenOperator({ value: OPERATORS.DIFFERENT.value });
 
     // WHEN
     const result = token.toString();
@@ -312,7 +312,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole > tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.GREAT_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.GREAT_THAN.value });
 
     // WHEN
     const result = token.toString();
@@ -323,7 +323,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole >= tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
 
     // WHEN
     const result = token.toString();
@@ -334,7 +334,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole < tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS_THAN.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS_THAN.value });
 
     // WHEN
     const result = token.toString();
@@ -345,7 +345,7 @@ describe("TokenOperator — toString", () => {
 
   it("rend le symbole <= tel quel", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.LESS_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.LESS_OR_EQUAL.value });
 
     // WHEN
     const result = token.toString();
@@ -356,7 +356,7 @@ describe("TokenOperator — toString", () => {
 
   it("renvoie une chaîne vide quand le jeton est caché", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.OR.value, hidden: true });
+    const token = new TokenOperator({ value: OPERATORS.OR.value, hidden: true });
 
     // WHEN
     const result = token.toString();
@@ -402,7 +402,7 @@ describe("TokenOperator — état non renseigné", () => {
 
   it("rejette un symbole qui n'appartient pas à la liste des opérateurs", () => {
     // GIVEN
-    const token = new TokenOperator({ value: "**" as OperatorValue });
+    const token = new TokenOperator({ value: "**" as Operator });
 
     // WHEN
     const result = token.isValid();
@@ -413,7 +413,7 @@ describe("TokenOperator — état non renseigné", () => {
 
   it("rend le message d'erreur pour un symbole inconnu", () => {
     // GIVEN
-    const token = new TokenOperator({ value: "**" as OperatorValue });
+    const token = new TokenOperator({ value: "**" as Operator });
 
     // WHEN
     const result = token.toString();
@@ -429,7 +429,7 @@ describe("TokenOperator — isValid", () => {
   // symboles représentatifs suffisent ici.
   it("accepte un symbole d'un caractère", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.MORE.value });
+    const token = new TokenOperator({ value: OPERATORS.MORE.value });
 
     // WHEN
     const result = token.isValid();
@@ -440,7 +440,7 @@ describe("TokenOperator — isValid", () => {
 
   it("accepte un symbole de deux caractères", () => {
     // GIVEN
-    const token = new TokenOperator({ value: OPERATOR.GREAT_OR_EQUAL.value });
+    const token = new TokenOperator({ value: OPERATORS.GREAT_OR_EQUAL.value });
 
     // WHEN
     const result = token.isValid();

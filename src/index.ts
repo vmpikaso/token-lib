@@ -10,9 +10,8 @@ export { TokenList } from "./class/token-list.js";
 export { TokenOperator } from "./class/token-operator.js";
 export { TokenText } from "./class/token-text.js";
 
-export { OPERATOR } from "./constants/operators.js";
-export { OUTPUT_FORMAT } from "./constants/output-format.js";
-export { SEPARATOR } from "./constants/separator.js";
+export { OPERATOR_VALUES, OPERATORS, type Operator, type OperatorItem } from "./constants/operators.js";
+export { SEPARATORS, type Separator, type SeparatorItem } from "./constants/separator.js";
 export { TOKEN_TITLE } from "./constants/token-title.js";
 export { TOKEN_TYPE } from "./constants/token-type.js";
 export type * from "./interfaces/token.js";

@@ -3,10 +3,10 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenExpression } from "../interfaces/token.js";
 import type { TokenExpressionConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 
-export class TokenExpression extends Token<TokenType["EXPRESSION"]> implements ITokenExpression {
+export class TokenExpression extends Token<TokenTypes["EXPRESSION"]> implements ITokenExpression {
   expression: TokenGlobal[];
 
   constructor(token: TokenExpressionConstructor) {

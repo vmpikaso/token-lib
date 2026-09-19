@@ -3,11 +3,11 @@ import { TOKEN_TYPE } from "../constants/token-type.js";
 import type { ITokenCondition } from "../interfaces/token.js";
 import type { TokenConditionConstructor } from "../interfaces/token-constructor.js";
 import type { TokenGlobal } from "../interfaces/token-global.js";
-import { ArrayToString, ERROR_MSG, type TokenType } from "../interfaces/utils.js";
+import { ArrayToString, ERROR_MSG, type TokenTypes } from "../interfaces/utils.js";
 import { Token } from "./token.js";
 import { TokenExpression } from "./token-expression.js";
 
-export class TokenCondition extends Token<TokenType["CONDITION"]> implements ITokenCondition {
+export class TokenCondition extends Token<TokenTypes["CONDITION"]> implements ITokenCondition {
   then: TokenGlobal[];
   else: TokenGlobal[];
   condition: TokenExpression;
