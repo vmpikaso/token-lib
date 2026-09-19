@@ -1,0 +1,231 @@
+import { describe, expect, it } from "vitest";
+import { TokenField } from "../../src/class/token-field.js";
+import { TOKEN_TITLE } from "../../src/constants/token-title.js";
+import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+import { ERROR_MSG } from "../../src/interfaces/utils.js";
+
+describe("TokenField — constructeur", () => {
+  it("applique les valeurs par défaut", () => {
+    // GIVEN
+    const input = {};
+
+    // WHEN
+    const token = new TokenField(input);
+
+    // THEN
+    expect(token).toEqual(
+      expect.objectContaining({
+        type: TOKEN_TYPE.FIELD,
+        value: "",
+        options: [],
+        addQuote: true,
+        parent: undefined,
+        hidden: false,
+      }),
+    );
+  });
+
+  it("conserve les valeurs fournies", () => {
+    // GIVEN
+    const input = { value: "nom", options: ["upper"], addQuote: false, parent: "user", hidden: true };
+
+    // WHEN
+    const token = new TokenField(input);
+
+    // THEN
+    expect(token).toEqual(expect.objectContaining(input));
+  });
+});
+
+describe("TokenField — toString", () => {
+  it("entoure le champ de guillemets par défaut", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom" });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('"@@nom@@"');
+  });
+
+  it("omet les guillemets quand addQuote est faux", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", addQuote: false });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("@@nom@@");
+  });
+
+  it("préfixe par le parent quand il est renseigné", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", parent: "user" });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('"@@user.nom@@"');
+  });
+
+  it("ignore un parent vide", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", parent: "" });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('"@@nom@@"');
+  });
+
+  it("ajoute une seule option", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", options: ["upper"] });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('"@@nom|upper@@"');
+  });
+
+  it("ajoute plusieurs options séparées par une barre verticale", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", options: ["upper", "trim"] });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe('"@@nom|upper|trim@@"');
+  });
+
+  it("combine parent, options et absence de guillemets", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", parent: "user", options: ["upper"], addQuote: false });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("@@user.nom|upper@@");
+  });
+
+  it("rend le message d'erreur quand le champ n'a pas de valeur", () => {
+    // GIVEN
+    const token = new TokenField({});
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.FIELD));
+  });
+
+  it("rend le message d'erreur même avec des options renseignées", () => {
+    // GIVEN
+    const token = new TokenField({ options: ["upper"] });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe(ERROR_MSG(TOKEN_TITLE.FIELD));
+  });
+
+  it("renvoie une chaîne vide quand le jeton est caché", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", hidden: true });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("");
+  });
+});
+
+describe("TokenField — getTitle", () => {
+  it("utilise le préfixe du champ quand il est valide", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom" });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe("nom");
+  });
+
+  it("intègre le parent dans le libellé", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", parent: "user" });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe("user.nom");
+  });
+
+  it("n'intègre pas les options dans le libellé", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", options: ["upper"] });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe("nom");
+  });
+
+  it("retombe sur le libellé générique quand le champ est invalide", () => {
+    // GIVEN
+    const token = new TokenField({});
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(TOKEN_TITLE.FIELD);
+  });
+
+  it("préfixe le libellé quand le jeton est caché", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom", hidden: true });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe("(Caché) nom");
+  });
+});
+
+describe("TokenField — isValid", () => {
+  it("accepte un champ avec une valeur", () => {
+    // GIVEN
+    const token = new TokenField({ value: "nom" });
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(true);
+  });
+
+  it("rejette un champ sans valeur", () => {
+    // GIVEN
+    const token = new TokenField({});
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+});

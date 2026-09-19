@@ -1,0 +1,156 @@
+import { describe, expect, it } from "vitest";
+import { TokenText } from "../../src/class/token-text.js";
+import { SEPARATOR } from "../../src/constants/separator.js";
+import { TOKEN_TITLE } from "../../src/constants/token-title.js";
+import { TOKEN_TYPE } from "../../src/constants/token-type.js";
+
+describe("TokenText — constructeur", () => {
+  it("applique les valeurs par défaut", () => {
+    // GIVEN
+    const input = {};
+
+    // WHEN
+    const token = new TokenText(input);
+
+    // THEN
+    expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.TEXT, value: "", hidden: false }));
+  });
+
+  it("conserve les valeurs fournies", () => {
+    // GIVEN
+    const input = { type: TOKEN_TYPE.COMMA, value: ",", hidden: true };
+
+    // WHEN
+    const token = new TokenText(input);
+
+    // THEN
+    expect(token).toEqual(expect.objectContaining({ type: TOKEN_TYPE.COMMA, value: ",", hidden: true }));
+  });
+});
+
+describe("TokenText — getTitle", () => {
+  it("libelle une virgule", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.COMMA, value: "," });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(TOKEN_TITLE.COMMA);
+  });
+
+  it("libelle une espace", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.SPACE, value: " " });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(TOKEN_TITLE.SPACE);
+  });
+
+  it("libelle un saut de ligne", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.JUMPLINE, value: "\n" });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(TOKEN_TITLE.JUMPLINE);
+  });
+
+  it("libelle un texte simple", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.TEXT, value: "bonjour" });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(TOKEN_TITLE.TEXT);
+  });
+
+  it("intègre la valeur dans le libellé d'un séparateur", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.SEPARATOR, value: SEPARATOR.SEMICOLON.value });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(`${TOKEN_TITLE.SEPARATOR} ( ; )`);
+  });
+
+  it("intègre la valeur dans le libellé d'un nombre", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.NUMBER, value: "42" });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(`${TOKEN_TITLE.NUMBER}: 42`);
+  });
+
+  it("préfixe le libellé quand le jeton est caché", () => {
+    // GIVEN
+    const token = new TokenText({ type: TOKEN_TYPE.SPACE, hidden: true });
+
+    // WHEN
+    const title = token.getTitle();
+
+    // THEN
+    expect(title).toBe(`(Caché) ${TOKEN_TITLE.SPACE}`);
+  });
+});
+
+describe("TokenText — toString", () => {
+  it("rend la valeur brute", () => {
+    // GIVEN
+    const token = new TokenText({ value: "bonjour" });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("bonjour");
+  });
+
+  it("renvoie une chaîne vide quand le jeton est caché", () => {
+    // GIVEN
+    const token = new TokenText({ value: "bonjour", hidden: true });
+
+    // WHEN
+    const result = token.toString();
+
+    // THEN
+    expect(result).toBe("");
+  });
+});
+
+describe("TokenText — isValid", () => {
+  it("accepte une valeur non vide", () => {
+    // GIVEN
+    const token = new TokenText({ value: "x" });
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(true);
+  });
+
+  it("rejette une valeur vide", () => {
+    // GIVEN
+    const token = new TokenText({});
+
+    // WHEN
+    const result = token.isValid();
+
+    // THEN
+    expect(result).toBe(false);
+  });
+});

@@ -1,0 +1,4 @@
+# esbuild (via vitest et tsx) résout son binaire par ses paquets optionnels de
+# plateforme : son script d'installation n'est pas nécessaire ici.
+allowBuilds:
+  esbuild: false
