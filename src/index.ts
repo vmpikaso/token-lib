@@ -7,6 +7,7 @@ export { HeaderToken } from "./class/header.token.js";
 export { HeaderWithListToken } from "./class/header-with-list.token.js";
 export { ListToken } from "./class/list.token.js";
 export { OperatorToken } from "./class/operator.token.js";
+export { SeparatorToken } from "./class/separator.token.js";
 export { TextToken } from "./class/text.token.js";
 export { Token } from "./class/token.js";
 

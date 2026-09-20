@@ -7,8 +7,8 @@ import type { HeaderToken } from "../class/header.token.js";
 import type { HeaderWithListToken } from "../class/header-with-list.token.js";
 import type { ListToken } from "../class/list.token.js";
 import type { OperatorToken } from "../class/operator.token.js";
+import type { SeparatorToken } from "../class/separator.token.js";
 import type { TextToken } from "../class/text.token.js";
-import type { Token } from "../class/token.js";
 import type {
   IColumnToken,
   IConditionToken,
@@ -35,7 +35,6 @@ export type IAnyToken =
   | IOperatorToken;
 
 export type AnyToken =
-  | Token
   | TextToken
   | FieldToken
   | ListToken
@@ -45,4 +44,5 @@ export type AnyToken =
   | ExpressionToken
   | ConditionToken
   | ContainerToken
-  | OperatorToken;
+  | OperatorToken
+  | SeparatorToken;

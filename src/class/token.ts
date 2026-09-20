@@ -34,6 +34,10 @@ export class Token<T extends TokenType = TokenTypes["TEXT"], U extends TokenValu
     Token.currentId = 0;
   }
 
+  getType(): string {
+    return TOKEN_TITLE.TOKEN;
+  }
+
   getTitle(): string {
     return this.hidden ? `(Caché) ${this._renderTitle()}` : this._renderTitle();
   }

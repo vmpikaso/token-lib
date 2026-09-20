@@ -6,3 +6,5 @@ export const SEPARATORS = {
 } as const satisfies Record<string, SeparatorItem>;
 
 export type Separator = (typeof SEPARATORS)[keyof typeof SEPARATORS]["value"];
+
+export const DEFAULT_SEPARATOR = SEPARATORS.SEMICOLON.value;
